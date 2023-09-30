@@ -31,7 +31,7 @@ export default function DetailJob({ auth }) {
             header={
                 <div className="flex flex-col gap-2">
                     <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Detail Arum - {data.job.job_name}
+                        Detail Pekerjaan - {data.job.job_name}
                     </h2>
                     <p className="text-sm text-slate-400">
                         <Link className="text-indigo-500" href="/jobs">
