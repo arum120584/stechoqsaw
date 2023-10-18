@@ -11,8 +11,15 @@ class Job extends Model
     use HasFactory;
     protected $table = "jobs";
 
-    public function jobCriterias()
+    public function selections()
     {
-        return $this->hasMany(JobCriteria::class);
+        return $this->hasMany(Selection::class);
     }
+
+    //TIDAK DIGUNAKAN
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+    //TIDAK DIGUNAKAN
 }

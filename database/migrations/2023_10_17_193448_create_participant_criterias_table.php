@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_criterias', function (Blueprint $table) {
+        Schema::create('participant_criterias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('participant_id');
+            $table->foreign('participant_id')->references('id')->on('participants')->onDelete("cascade");
 
-            $table->unsignedBigInteger('candidate_id');
-            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete("cascade");
+            $table->unsignedBigInteger('selection_criteria_id');
+            $table->foreign('selection_criteria_id')->references('id')->on('selection_criterias')->onDelete("cascade");
 
-            $table->unsignedBigInteger('job_criteria_id');
-            $table->foreign('job_criteria_id')->references('id')->on('job_criterias')->onDelete("cascade");
-
-            $table->double('value', 15, 8)->nullable();
+            $table->integer('value')->nullable();
             
             $table->integer('weight');
             $table->float('weight_normalization')->nullable();
             $table->longText('note')->nullable();
-
             $table->timestamps();
         });
     }
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_criterias');
+        Schema::dropIfExists('participant_criterias');
     }
 };

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("image", 100)->nullable();
             $table->string("division")->nullable();
             $table->date("due_date")->nullable();
+            $table->string("status")->nullable();
             $table->timestamps();
         });
     }

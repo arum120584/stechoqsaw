@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\JobCriteriasController;
-
+use App\Http\Controllers\CandidatesController;
+use App\Http\Controllers\HomesController;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/reza', function () {
-    return Inertia::render('Home');
-})->name('reza');
+Route::get('/home', [HomesController::class, 'index'])->name('home.index');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -46,11 +45,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/job/add', [JobsController::class, 'createJob'])->name('jobs.createjob');
 
     Route::post('/criteria/add', [JobCriteriasController::class, 'createJobCriteria'])->name('criteria.create');
-
+    Route::put('/criteria/normalization/{id}', [JobCriteriasController::class, 'normalizationWeight'])->name('criteria.normalization');
+    Route::get('/candidate/detail/{id}', [CandidatesController::class, 'detailCandidate'])->name('candidate.detail');
+    Route::get('/candidate/addcriteria/{id}', [CandidatesController::class, 'addCandidateCriteria'])->name('candidate.addcriteria');
+    Route::post('/candidate/newcriteria', [CandidatesController::class, 'newCandidateCriteria'])->name('candidate.newcriteria');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
 
 require __DIR__.'/auth.php';

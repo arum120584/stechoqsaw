@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobCriteria extends Model
+class Candidate extends Model
 {
     use HasFactory;
-    protected $table = "job_criterias";
-    
+    protected $table = "candidates";
+
     public function job()
     {
         return $this->belongsTo(Job::class);
@@ -17,6 +17,6 @@ class JobCriteria extends Model
 
     public function candidate_criterias()
     {
-        return $this->hasMany(CandidateCriteria::class);
+        return $this->hasMany(CandidateCriteria::class)->with('job_criteria');
     }
 }

@@ -22,8 +22,36 @@ export default function DetailJob({ auth }) {
                 job_id: data.job.id,
             },
         });
-        setTab("kriteria");
     };
+
+    const detailCandidate = (e, id) => {
+        // return console.log(candidate);
+        e.preventDefault();
+        router.visit(`/candidate/detail/${id}`, {
+            method: "get",
+        });
+    };
+
+    const total_weight =
+        data.job.job_criterias.length > 0 &&
+        data.job.job_criterias.reduce(
+            (prev, criteria) => prev + criteria.weight,
+            0
+        );
+
+    const setNormalization = (e, id, weight) => {
+        e.preventDefault();
+        router.visit(`/criteria/normalization/${id}`, {
+            method: "put",
+            data: {
+                weight_normalization: weight / total_weight,
+            },
+        });
+    };
+
+    // const setAllNormalization = () => {
+    //     for (let i = 0; i )
+    // }
 
     return (
         <AuthenticatedLayout
@@ -85,6 +113,7 @@ export default function DetailJob({ auth }) {
                             </p>
                         </button>
                         <button
+                            onClick={() => setTab("pelamar")}
                             className={`${
                                 tab === "pelamar"
                                     ? "bg-indigo-500"
@@ -162,6 +191,9 @@ export default function DetailJob({ auth }) {
                                             <th className="py-3 px-4 text-sm">
                                                 Bobot
                                             </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Normalisasi
+                                            </th>
                                             <th className="py-3 px-4 w-10 text-sm">
                                                 Aksi
                                             </th>
@@ -194,22 +226,36 @@ export default function DetailJob({ auth }) {
                                                                     ? `TIDAK WAJIB (${criteria.weight})`
                                                                     : `SANGAT TIDAK WAJIB (${criteria.weight})`}
                                                             </td>
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {criteria.weight_normalization !==
+                                                                null
+                                                                    ? criteria.weight_normalization
+                                                                    : "Belum Dinormalisasi"}
+                                                            </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50">
                                                                 <div className="flex items-center gap-2">
-                                                                    <button className="bg-indigo-500 px-4 py-1 rounded-lg">
-                                                                        <p className="text-white text-sm">
-                                                                            Detail
-                                                                        </p>
+                                                                    <button
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            setNormalization(
+                                                                                e,
+                                                                                criteria.id,
+                                                                                criteria.weight
+                                                                            )
+                                                                        }
+                                                                        className="bg-slate-500 px-2 py-1 rounded-lg"
+                                                                    >
+                                                                        <i className="bx bx-fw bx-transfer-alt text-white"></i>
                                                                     </button>
-                                                                    <button className="bg-orange-500 px-4 py-1 rounded-lg">
-                                                                        <p className="text-white text-sm">
-                                                                            Edit
-                                                                        </p>
+                                                                    <button className="bg-indigo-500 px-2 py-1 rounded-lg">
+                                                                        <i className="bx bx-fw bx-info-circle text-white"></i>
                                                                     </button>
-                                                                    <button className="bg-red-500 px-4 py-1 rounded-lg">
-                                                                        <p className="text-white text-sm">
-                                                                            Hapus
-                                                                        </p>
+                                                                    <button className="bg-orange-500 px-2 py-1 rounded-lg">
+                                                                        <i className="bx bx-fw bx-edit text-white"></i>
+                                                                    </button>
+                                                                    <button className="bg-red-500 px-2 py-1 rounded-lg">
+                                                                        <i className="bx bx-fw bx-trash text-white"></i>
                                                                     </button>
                                                                 </div>
                                                             </td>
@@ -309,7 +355,9 @@ export default function DetailJob({ auth }) {
                                 </div>
                                 <div className="flex flex-row justify-end">
                                     <button
-                                        onClick={(e) => addCriteria(e)}
+                                        onClick={(e) => {
+                                            addCriteria(e);
+                                        }}
                                         className="bg-indigo-500 px-4 py-1 rounded-lg"
                                     >
                                         <p className="text-white text-sm">
@@ -317,6 +365,71 @@ export default function DetailJob({ auth }) {
                                         </p>
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {tab === "pelamar" && (
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
+                            <div className="p-6 w-full">
+                                <table className="w-full">
+                                    <thead className="bg-gray-100 text-left">
+                                        <tr>
+                                            <th className="py-3 px-4 w-4 text-sm">
+                                                No
+                                            </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Nama Kandidat
+                                            </th>
+
+                                            <th className="py-3 px-4 w-10 text-sm">
+                                                Aksi
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.job.candidates.map(
+                                            (candidate, idx) => {
+                                                return (
+                                                    <tr key={candidate.id}>
+                                                        <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                            {idx + 1}
+                                                        </td>
+                                                        <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                            {candidate.name}
+                                                        </td>
+
+                                                        <td className="py-3 px-4 border-b-2 border-gray-50">
+                                                            <div className="flex items-center gap-2">
+                                                                <button
+                                                                    onClick={(
+                                                                        e
+                                                                    ) =>
+                                                                        detailCandidate(
+                                                                            e,
+                                                                            candidate.id
+                                                                        )
+                                                                    }
+                                                                    className="bg-indigo-500 px-2 py-1 rounded-lg"
+                                                                >
+                                                                    <i className="bx bx-fw bx-info-circle text-white"></i>
+                                                                </button>
+                                                                <button className="bg-orange-500 px-2 py-1 rounded-lg">
+                                                                    <i className="bx bx-fw bx-edit text-white"></i>
+                                                                </button>
+                                                                <button className="bg-red-500 px-2 py-1 rounded-lg">
+                                                                    <i className="bx bx-fw bx-trash text-white"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            }
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

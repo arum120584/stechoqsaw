@@ -27,36 +27,51 @@ class JobCriteriasController extends Controller
         $jobcriteria->save();
 
         
-        $criterias = JobCriteria::where('job_id','=', $jobcriteria->job_id)->get();
+        // $criterias = JobCriteria::where('job_id','=', $jobcriteria->job_id)->get();
 
-        //setelah tersimpan, sum nilai weight nya
-        $sumweight = JobCriteria::where('job_id','=', $jobcriteria->job_id)->sum('weight');
+        // //setelah tersimpan, sum nilai weight nya
+        // $sumweight = JobCriteria::where('job_id','=', $jobcriteria->job_id)->sum('weight');
         
-        if(count($criterias) > 2){
+        // if(count($criterias) > 2){
 
-            // return response($jobcriteria);
-            $criteria = JobCriteria::find($jobcriteria->id);
-            $criteria->weight_normalization = $criteria->weight / $sumweight;
+        //     // return response($jobcriteria);
+        //     $criteria = JobCriteria::find($jobcriteria->id);
+        //     $criteria->weight_normalization = $criteria->weight / $sumweight;
 
-            $criteria->save();
+        //     $criteria->save();
 
-        } else if (count($criterias) > 1 && count($criterias) < 3) {
+        // } else if (count($criterias) > 1 && count($criterias) < 3) {
 
-            $firstcriteria = JobCriteria::where('job_id','=', $jobcriteria->job_id)->first();
-            $latestcriteria = JobCriteria::where('job_id','=', $jobcriteria->job_id)->latest()->first();
-            // return response($firstcriteria);
-            $firstcriteria->weight_normalization = $firstcriteria->weight / $sumweight;
-            $latestcriteria->weight_normalization = $latestcriteria->weight / $sumweight;
-            $firstcriteria->save();
-            $latestcriteria->save();
+        //     $firstcriteria = JobCriteria::where('job_id','=', $jobcriteria->job_id)->first();
+        //     $latestcriteria = JobCriteria::where('job_id','=', $jobcriteria->job_id)->latest()->first();
+        //     // return response($firstcriteria);
+        //     $firstcriteria->weight_normalization = $firstcriteria->weight / $sumweight;
+        //     $latestcriteria->weight_normalization = $latestcriteria->weight / $sumweight;
+        //     $firstcriteria->save();
+        //     $latestcriteria->save();
             
 
-        } else if (count($criterias) === 1) {
-            return to_route('jobs.getjob', $jobcriteria->job_id);
-        }
+        // } else if (count($criterias) === 1) {
+        //     return to_route('jobs.getjob', $jobcriteria->job_id);
+        // }
 
-        return to_route('jobs.getjob', $jobcriteria->job_id);
+        // return to_route('jobs.getjob', $jobcriteria->job_id);
         
+
+    }
+
+    public function normalizationWeight(Request $request, $id)
+    {
+        $data = $request->validate([
+            'weight_normalization' => 'required',
+        ]);
+
+        $jobcriteria = JobCriteria::find($id);
+
+        
+        $jobcriteria->weight_normalization = $data['weight_normalization'];
+
+        $jobcriteria->save();
 
     }
 }
