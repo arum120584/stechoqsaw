@@ -20,7 +20,7 @@ class JobsController extends Controller
     public function getJob($id)
     {
         // $job = Job::with('jobCriterias', 'candidates')->find($id);
-        $job = Job::with('selections')->find($id);
+        $job = Job::with('selections', 'selections.participants')->find($id);
         return Inertia::render('Jobs/DetailJob', [
             'job' => $job
         ]);

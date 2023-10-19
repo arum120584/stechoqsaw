@@ -16,23 +16,23 @@ class SelectionSeeder extends Seeder
         DB::table('selections')->insert(
             [
                 [
-                    'name' => 'CV',
-                    'status' => 'ONGOING',
+                    'name' => 'Pemberkasan',
+                    'status' => 'BERLANGSUNG',
                     'job_id' => 1,
                 ],
                 [
-                    'name' => 'Skill Test',
-                    'status' => 'NOT YET',
+                    'name' => 'Tes Keahlian',
+                    'status' => 'AKAN DATANG',
                     'job_id' => 1,
                 ],
                 [
-                    'name' => 'Asessment Test',
-                    'status' => 'NOT YET',
+                    'name' => 'Tes Kepribadian',
+                    'status' => 'AKAN DATANG',
                     'job_id' => 1,
                 ],
                 [
-                    'name' => 'Interview',
-                    'status' => 'NOT YET',
+                    'name' => 'Wawancara',
+                    'status' => 'AKAN DATANG',
                     'job_id' => 1,
                 ],
             ]

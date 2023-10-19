@@ -1,16 +1,14 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, router, Link } from "@inertiajs/react";
-import { useState } from "react";
 
 export default function DetailJob({ auth }) {
     const data = usePage().props;
-    const [criteriaName, setCriteriaName] = useState("");
-    const [criteriaType, setCriteriaType] = useState("");
-    const [criteriaWeight, setCriteriaWeight] = useState("");
-    const [criteriaDescription, setCriteriaDescription] = useState("");
-
-    console.log(data.job);
-
+    const detailSelection = (e, id) => {
+        e.preventDefault();
+        router.visit(`/selection/detail/${id}`, {
+            method: "get",
+        });
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -35,10 +33,13 @@ export default function DetailJob({ auth }) {
                     {data.job.selections.map((selection) => {
                         return (
                             <div
+                                onClick={(e) => {
+                                    detailSelection(e, selection.id);
+                                }}
                                 key={selection.id}
                                 className={`rounded-lg col-span-3 card ${
-                                    selection.status === "ONGOING"
-                                        ? "bg-emerald-50"
+                                    selection.status === "BERLANGSUNG"
+                                        ? "bg-emerald-100"
                                         : "bg-white"
                                 } border border-slate-200`}
                             >
@@ -47,22 +48,30 @@ export default function DetailJob({ auth }) {
                                         <p
                                             className={`text-sm ${
                                                 selection.status ===
-                                                    "ONGOING" &&
+                                                    "BERLANGSUNG" &&
                                                 "text-emerald-500"
                                             }`}
                                         >
-                                            Seleksi {selection.name} (
-                                            {selection.status})
+                                            Seleksi {selection.name}
                                         </p>
-                                        <p
-                                            className={`font-semibold text-xl ${
-                                                selection.status ===
-                                                    "ONGOING" &&
-                                                "text-emerald-500"
-                                            } leading-tight`}
-                                        >
-                                            500 Peserta
-                                        </p>
+                                        <div className="flex flex-row justify-between items-center">
+                                            <p
+                                                className={`font-semibold text-xl ${
+                                                    selection.status ===
+                                                        "BERLANGSUNG" &&
+                                                    "text-emerald-500"
+                                                } leading-tight`}
+                                            >
+                                                {selection.participants.length}
+                                            </p>
+                                            <i
+                                                className={`bx bx-fw bx-right-arrow-circle ${
+                                                    selection.status ===
+                                                        "BERLANGSUNG" &&
+                                                    "text-emerald-500"
+                                                }`}
+                                            ></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

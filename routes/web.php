@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobsController;
+use App\Http\Controllers\SelectionsController;
+use App\Http\Controllers\SelectionCriteriasController;
 use App\Http\Controllers\JobCriteriasController;
 use App\Http\Controllers\CandidatesController;
 use App\Http\Controllers\HomesController;
+use App\Http\Controllers\ImportExportsController;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +47,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/job/detail/{id}', [JobsController::class, 'getJob'])->name('jobs.getjob');
     Route::post('/job/add', [JobsController::class, 'createJob'])->name('jobs.createjob');
 
+    Route::get('/selection/detail/{id}', [SelectionsController::class, 'detail'])->name('selections.detail');
+
+    Route::put('/selectioncriteria/normalization/{id}', [SelectionCriteriasController::class, 'normalization'])->name('selectioncriteria.normalization');
+
+
+
+
+
     Route::post('/criteria/add', [JobCriteriasController::class, 'createJobCriteria'])->name('criteria.create');
     Route::put('/criteria/normalization/{id}', [JobCriteriasController::class, 'normalizationWeight'])->name('criteria.normalization');
     Route::get('/candidate/detail/{id}', [CandidatesController::class, 'detailCandidate'])->name('candidate.detail');
@@ -53,6 +64,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/import', [ImportExportsController::class, 'import'])->name('importexport.import');
+    Route::get('/export', [ImportExportsController::class, 'export'])->name('importexport.export');
+
+
+    Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');
 
 });
 

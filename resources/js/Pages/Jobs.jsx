@@ -11,9 +11,11 @@ export default function Jobs({ auth }) {
     const [photoJob, setPhotoJob] = useState({});
     const [division, setDivision] = useState("");
     const [dueDate, setDueDate] = useState("");
+    const [excel, setExcel] = useState({});
 
     const addJob = (e) => {
         e.preventDefault();
+        // return console.log(photoJob);
         router.visit("/job/add", {
             method: "post",
             data: {
@@ -28,8 +30,27 @@ export default function Jobs({ auth }) {
         });
     };
 
+    const importExcel = (e) => {
+        e.preventDefault();
+        // return console.log(excel);
+        router.visit("/import", {
+            method: "post",
+            data: {
+                file: excel,
+            },
+            forceFormData: true,
+        });
+    };
+
     const getJob = (id) => {
         router.visit(`/job/detail/${id}`, {
+            method: "get",
+        });
+    };
+
+    const exportExcel = (e) => {
+        e.preventDefault();
+        router.visit(`/export`, {
             method: "get",
         });
     };
@@ -38,7 +59,10 @@ export default function Jobs({ auth }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                <h2
+                    onClick={(e) => exportExcel(e)}
+                    className="font-semibold text-xl text-gray-800 leading-tight"
+                >
                     Pekerjaan
                 </h2>
             }
@@ -110,6 +134,7 @@ export default function Jobs({ auth }) {
                             <p className="text-md font-bold mb-5">
                                 👋🏻 Kita bisa tambah pekerjaan baru disini
                             </p>
+                            <a href="/export">haha</a>
                             <div className="flex flex-col mb-4 gap-4">
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm">
@@ -226,6 +251,24 @@ export default function Jobs({ auth }) {
                                     <p className="text-white text-sm">Submit</p>
                                 </button>
                             </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm">import</label>
+                                <input
+                                    onChange={(e) =>
+                                        setExcel(e.target.files[0])
+                                    }
+                                    className="rounded-lg border border-gray-300"
+                                    type="file"
+                                    value={excel.File}
+                                />
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    importExcel(e);
+                                }}
+                            >
+                                haha
+                            </button>
                         </div>
                     </div>
                 </div>
