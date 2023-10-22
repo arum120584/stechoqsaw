@@ -4,6 +4,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\SelectionsController;
 use App\Http\Controllers\SelectionCriteriasController;
+use App\Http\Controllers\ParticipantsController;
+use App\Http\Controllers\SawsController;
+
+
+
+
 use App\Http\Controllers\JobCriteriasController;
 use App\Http\Controllers\CandidatesController;
 use App\Http\Controllers\HomesController;
@@ -65,12 +71,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::post('/import', [ImportExportsController::class, 'import'])->name('importexport.import');
-    Route::get('/export', [ImportExportsController::class, 'export'])->name('importexport.export');
+    // Route::post('/import', [ImportExportsController::class, 'import'])->name('importexport.import');
+    // Route::get('/export', [ImportExportsController::class, 'export'])->name('importexport.export');
 
 
     Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');
 
+
+    Route::get('/participant/export', [ImportExportsController::class, 'exportParticipants'])->name('importexport.exportparticipants');
+    Route::get('/participant/detail/{id}', [ParticipantsController::class, 'getParticipant'])->name('participant.detail');
+    Route::post('/participant/add/criteria', [ParticipantsController::class, 'addParticipantCriteria'])->name('participant.addcriteria');
+    Route::put('/participant/update/criteria', [ParticipantsController::class, 'updateParticipantCriteria'])->name('participant.updatecriteria');
+
+
+    Route::get('/startsaw/{selectionid}', [SawsController::class, 'startSaw'])->name('saw.startsaw');
 });
 
 require __DIR__.'/auth.php';

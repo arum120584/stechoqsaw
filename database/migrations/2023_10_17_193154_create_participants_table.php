@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('certificate_organization_three')->nullable();
             $table->string('certificate_organization_four')->nullable();
             $table->string('certificate_organization_five')->nullable();
-            $table->double("score")->nullable();
+            $table->float("score")->nullable();
 
             $table->unsignedBigInteger('selection_id')->nullable();
             $table->foreign('selection_id')->references('id')->on('selections')->onDelete("cascade");

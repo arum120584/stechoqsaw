@@ -6,6 +6,10 @@ export default function DetailSelection({ auth }) {
     const data = usePage().props;
     const [tab, setTab] = useState("kriteria");
     const [excel, setExcel] = useState({});
+    // const [results, setResults] = useState(
+    //     data.participants.data.sort((a, b) => b.score - a.score)
+    // );
+    const [results, setResults] = useState([]);
 
     const total_weight =
         data.selection.selection_criterias.length > 0 &&
@@ -33,7 +37,39 @@ export default function DetailSelection({ auth }) {
                 file: excel,
             },
             forceFormData: true,
+            preserveState: true,
+            preserveScroll: true,
         });
+    };
+
+    const getPage = (e) => {
+        e.preventDefault();
+        router.visit(`${data.participants.next_page_url}`, {
+            method: "get",
+            preserveState: true,
+            preserveScroll: true,
+        });
+        setTab("kandidat");
+    };
+
+    const DetailParticipant = (e, id) => {
+        e.preventDefault();
+        router.visit(`/participant/detail/${id}`, {
+            method: "get",
+        });
+    };
+
+    const startSaw = (e, idselection) => {
+        e.preventDefault();
+        router.visit(`/startsaw/${idselection}`, {
+            method: "get",
+        });
+        setTimeout(() => {
+            router.visit(`/startsaw/${idselection}`, {
+                method: "get",
+            });
+        }, 3500);
+        // console.log(data.participants);
     };
 
     return (
@@ -132,22 +168,28 @@ export default function DetailSelection({ auth }) {
                                 Kandidat
                             </p>
                         </button>
+                        <button
+                            onClick={() => setTab("seleksi")}
+                            className={`${
+                                tab === "seleksi"
+                                    ? "bg-indigo-500"
+                                    : "border border-indigo-500"
+                            } px-4 py-1 rounded-lg`}
+                        >
+                            <p
+                                className={`${
+                                    tab === "seleksi"
+                                        ? "text-white"
+                                        : "text-indigo-500"
+                                } text-sm`}
+                            >
+                                Hasil Seleksi
+                            </p>
+                        </button>
                     </div>
                 </div>
                 {/* END TAB ACTION */}
-                {/* <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
-                    <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
-                        <div className="p-6 w-full">
-                            {data.selection.participants.length === 0 ? (
-                                <p className="text-slate-300">
-                                    Tidak ada kandidat pelamar ditemukan
-                                </p>
-                            ) : (
-                                "Ada"
-                            )}
-                        </div>
-                    </div>
-                </div> */}
+
                 {tab === "kriteria" && (
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
@@ -239,9 +281,17 @@ export default function DetailSelection({ auth }) {
 
                 {tab === "kandidat" && (
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div>
-                            <div className="flex flex-col gap-2">
-                                <label className="text-sm">import</label>
+                        <div className="flex justify-between items-center mb-3">
+                            <div className="flex items-center gap-1">
+                                <button
+                                    onClick={(e) => {
+                                        importExcel(e);
+                                    }}
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <i className="bx bx-fw bx-upload text-slate-400"></i>
+                                </button>
+
                                 <input
                                     onChange={(e) =>
                                         setExcel(e.target.files[0])
@@ -251,13 +301,28 @@ export default function DetailSelection({ auth }) {
                                     value={excel.File}
                                 />
                             </div>
-                            <button
-                                onClick={(e) => {
-                                    importExcel(e);
-                                }}
-                            >
-                                haha
-                            </button>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() =>
+                                        window.open(
+                                            window.location.origin +
+                                                "/participant/export",
+                                            "_blank"
+                                        )
+                                    }
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <p className="text-sm">Download Kandidat</p>
+                                </button>
+                                <button
+                                    onClick={(e) =>
+                                        startSaw(e, data.selection.id)
+                                    }
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <p className="text-sm">Mulai Seleksi</p>
+                                </button>
+                            </div>
                         </div>
                         <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                             <div className="p-6 w-full">
@@ -285,10 +350,10 @@ export default function DetailSelection({ auth }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.selection.participants.length >
-                                            0 &&
-                                            data.selection.participants.map(
-                                                (participant, idx) => {
+                                        {data.participants.data.length > 0 &&
+                                            data.participants.data
+                                                .sort((a, b) => a.id - b.id)
+                                                .map((participant, idx) => {
                                                     return (
                                                         <tr
                                                             key={participant.id}
@@ -318,8 +383,18 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50">
                                                                 <div className="flex items-center gap-2">
-                                                                    <button className="bg-orange-500 px-2 py-1 rounded-lg">
-                                                                        <i className="bx bx-fw bx-edit text-white"></i>
+                                                                    <button
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            DetailParticipant(
+                                                                                e,
+                                                                                participant.id
+                                                                            )
+                                                                        }
+                                                                        className="bg-indigo-500 px-2 py-1 rounded-lg"
+                                                                    >
+                                                                        <i className="bx bx-fw bx-cog text-white"></i>
                                                                     </button>
                                                                     <button className="bg-red-500 px-2 py-1 rounded-lg">
                                                                         <i className="bx bx-fw bx-trash text-white"></i>
@@ -328,8 +403,77 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                         </tr>
                                                     );
-                                                }
-                                            )}
+                                                })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div className="flex justify-end items-center gap-1 mt-3">
+                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
+                                <i className="bx bx-fw bx-chevrons-left"></i>
+                            </button>
+                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
+                                <i className="bx bx-fw bx-chevron-left"></i>
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    getPage(e);
+                                }}
+                                className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                            >
+                                <i className="bx bx-fw bx-chevron-right"></i>
+                            </button>
+                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
+                                <i className="bx bx-fw bx-chevrons-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {tab === "seleksi" && (
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
+                            <div className="p-6 w-full">
+                                <table className="w-full">
+                                    <thead className="bg-gray-100 text-left">
+                                        <tr>
+                                            <th className="py-3 px-4 text-sm">
+                                                Nama Lengkap
+                                            </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Skor Akhir
+                                            </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Peringkat
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.participants.data.length > 0 &&
+                                            data.participants.data
+                                                .sort(
+                                                    (a, b) => b.score - a.score
+                                                )
+                                                .map((participant, idx) => {
+                                                    return (
+                                                        <tr
+                                                            key={participant.id}
+                                                        >
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {
+                                                                    participant.name
+                                                                }
+                                                            </td>
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {
+                                                                    participant.score
+                                                                }
+                                                            </td>
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {idx + 1}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
                                     </tbody>
                                 </table>
                             </div>

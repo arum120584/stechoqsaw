@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         UserSeeder::class,
         JobSeeder::class,
         SelectionSeeder::class,
-        // ParticipantSeeder::class,
+        ParticipantSeeder::class,
         SelectionCriteriaSeeder::class,
+        ParticipantCriteriaSeeder::class,
     ]);
 }
 }
