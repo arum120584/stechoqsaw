@@ -18,7 +18,7 @@ class ImportExportsController extends Controller
     public function importParticipants(Request $request)
     {
         Excel::import(new ImportParticipants, request()->file('file'));
-        Participant::whereNull('selection_id')->update(['selection_id' => 1]);  
+        Participant::whereNull('selection_id')->update(['selection_id' => $request->selection_id]);  
         return back();
     }
 

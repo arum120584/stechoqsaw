@@ -33,6 +33,7 @@ class ParticipantsController extends Controller
         $weights = $data['weight'];
         $values = $request->value;
         $notes = $request->note;
+        $selectionId = $request->selection_id;
 
         //mapping data $selectionCriteriaId dan ambil 'id' nya saja
         $selectionCriteriaIdArray = array_map(function ($selectionCriteria) {
@@ -53,6 +54,8 @@ class ParticipantsController extends Controller
             $participantCriteria->note = $note;
             $participantCriteria->save();
         }
+
+        return redirect()->route('selections.detail', ['id' => $selectionId]);
     }
 
     public function updateParticipantCriteria(Request $request)

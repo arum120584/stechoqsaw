@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\JobsController;
 use App\Http\Controllers\SelectionsController;
 use App\Http\Controllers\SelectionCriteriasController;
@@ -49,6 +50,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/users', [UsersController::class, 'getUsers'])->name('user.all');
+
     Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
     Route::get('/job/detail/{id}', [JobsController::class, 'getJob'])->name('jobs.getjob');
     Route::post('/job/add', [JobsController::class, 'createJob'])->name('jobs.createjob');
@@ -61,28 +64,22 @@ Route::middleware('auth')->group(function () {
 
 
 
-    Route::post('/criteria/add', [JobCriteriasController::class, 'createJobCriteria'])->name('criteria.create');
-    Route::put('/criteria/normalization/{id}', [JobCriteriasController::class, 'normalizationWeight'])->name('criteria.normalization');
-    Route::get('/candidate/detail/{id}', [CandidatesController::class, 'detailCandidate'])->name('candidate.detail');
-    Route::get('/candidate/addcriteria/{id}', [CandidatesController::class, 'addCandidateCriteria'])->name('candidate.addcriteria');
-    Route::post('/candidate/newcriteria', [CandidatesController::class, 'newCandidateCriteria'])->name('candidate.newcriteria');
+    // Route::post('/criteria/add', [JobCriteriasController::class, 'createJobCriteria'])->name('criteria.create');
+    // Route::put('/criteria/normalization/{id}', [JobCriteriasController::class, 'normalizationWeight'])->name('criteria.normalization');
+    // Route::get('/candidate/detail/{id}', [CandidatesController::class, 'detailCandidate'])->name('candidate.detail');
+    // Route::get('/candidate/addcriteria/{id}', [CandidatesController::class, 'addCandidateCriteria'])->name('candidate.addcriteria');
+    // Route::post('/candidate/newcriteria', [CandidatesController::class, 'newCandidateCriteria'])->name('candidate.newcriteria');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::post('/import', [ImportExportsController::class, 'import'])->name('importexport.import');
-    // Route::get('/export', [ImportExportsController::class, 'export'])->name('importexport.export');
-
-
-    Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');
-
-
-    Route::get('/participant/export', [ImportExportsController::class, 'exportParticipants'])->name('importexport.exportparticipants');
+    Route::get('/participants', [ParticipantsController::class, 'getParticipants'])->name('participant.all');
     Route::get('/participant/detail/{id}', [ParticipantsController::class, 'getParticipant'])->name('participant.detail');
     Route::post('/participant/add/criteria', [ParticipantsController::class, 'addParticipantCriteria'])->name('participant.addcriteria');
     Route::put('/participant/update/criteria', [ParticipantsController::class, 'updateParticipantCriteria'])->name('participant.updatecriteria');
-
+    Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');
+    Route::get('/participant/export', [ImportExportsController::class, 'exportParticipants'])->name('importexport.exportparticipants');
 
     Route::get('/startsaw/{selectionid}', [SawsController::class, 'startSaw'])->name('saw.startsaw');
 });

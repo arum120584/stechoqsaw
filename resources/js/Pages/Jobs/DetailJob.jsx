@@ -18,7 +18,7 @@ export default function DetailJob({ auth }) {
                         Detail Pekerjaan - {data.job.job_name}
                     </h2>
                     <p className="text-sm text-slate-400">
-                        <Link className="text-indigo-500" href="/jobs">
+                        <Link className="text-blue-900" href="/jobs">
                             Pekerjaan
                         </Link>{" "}
                         / Detail
@@ -39,7 +39,7 @@ export default function DetailJob({ auth }) {
                                 key={selection.id}
                                 className={`rounded-lg col-span-3 card ${
                                     selection.status === "BERLANGSUNG"
-                                        ? "bg-emerald-100"
+                                        ? "bg-blue-100"
                                         : "bg-white"
                                 } border border-slate-200`}
                             >
@@ -49,7 +49,7 @@ export default function DetailJob({ auth }) {
                                             className={`text-sm ${
                                                 selection.status ===
                                                     "BERLANGSUNG" &&
-                                                "text-emerald-500"
+                                                "text-blue-900"
                                             }`}
                                         >
                                             Seleksi {selection.name}
@@ -59,7 +59,7 @@ export default function DetailJob({ auth }) {
                                                 className={`font-semibold text-xl ${
                                                     selection.status ===
                                                         "BERLANGSUNG" &&
-                                                    "text-emerald-500"
+                                                    "text-blue-900"
                                                 } leading-tight`}
                                             >
                                                 {selection.participants.length}
@@ -68,7 +68,7 @@ export default function DetailJob({ auth }) {
                                                 className={`bx bx-fw bx-right-arrow-circle ${
                                                     selection.status ===
                                                         "BERLANGSUNG" &&
-                                                    "text-emerald-500"
+                                                    "text-blue-900"
                                                 }`}
                                             ></i>
                                         </div>

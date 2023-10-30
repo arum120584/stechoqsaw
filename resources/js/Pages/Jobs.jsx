@@ -11,7 +11,6 @@ export default function Jobs({ auth }) {
     const [photoJob, setPhotoJob] = useState({});
     const [division, setDivision] = useState("");
     const [dueDate, setDueDate] = useState("");
-    const [excel, setExcel] = useState({});
 
     const addJob = (e) => {
         e.preventDefault();
@@ -30,27 +29,8 @@ export default function Jobs({ auth }) {
         });
     };
 
-    const importExcel = (e) => {
-        e.preventDefault();
-        // return console.log(excel);
-        router.visit("/import", {
-            method: "post",
-            data: {
-                file: excel,
-            },
-            forceFormData: true,
-        });
-    };
-
     const getJob = (id) => {
         router.visit(`/job/detail/${id}`, {
-            method: "get",
-        });
-    };
-
-    const exportExcel = (e) => {
-        e.preventDefault();
-        router.visit(`/export`, {
             method: "get",
         });
     };
@@ -59,10 +39,7 @@ export default function Jobs({ auth }) {
         <AuthenticatedLayout
             user={auth.user}
             header={
-                <h2
-                    onClick={(e) => exportExcel(e)}
-                    className="font-semibold text-xl text-gray-800 leading-tight"
-                >
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
                     Pekerjaan
                 </h2>
             }
@@ -82,6 +59,9 @@ export default function Jobs({ auth }) {
                                         <th className="py-3 px-4 text-sm">
                                             Nama Pekerjaan
                                         </th>
+                                        <th className="py-3 px-4 text-sm">
+                                            Tipe
+                                        </th>
                                         <th className="py-3 px-4 w-10 text-sm">
                                             Aksi
                                         </th>
@@ -97,28 +77,19 @@ export default function Jobs({ auth }) {
                                                 <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                     {job.job_name}
                                                 </td>
+                                                <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                    {job.type}
+                                                </td>
                                                 <td className="py-3 px-4 border-b-2 border-gray-50">
                                                     <div className="flex items-center gap-2">
-                                                        <button
+                                                        <i
                                                             onClick={() =>
                                                                 getJob(job.id)
                                                             }
-                                                            className="bg-indigo-500 px-4 py-1 rounded-lg"
-                                                        >
-                                                            <p className="text-white text-sm">
-                                                                Detail
-                                                            </p>
-                                                        </button>
-                                                        <button className="bg-orange-500 px-4 py-1 rounded-lg">
-                                                            <p className="text-white text-sm">
-                                                                Edit
-                                                            </p>
-                                                        </button>
-                                                        <button className="bg-red-500 px-4 py-1 rounded-lg">
-                                                            <p className="text-white text-sm">
-                                                                Hapus
-                                                            </p>
-                                                        </button>
+                                                            className="bx bx-fw bx-info-circle text-blue-900"
+                                                        ></i>
+                                                        <i className="bx bx-fw bx-edit-alt text-amber-500"></i>
+                                                        <i className="bx bx-fw bx-trash text-rose-500"></i>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -132,9 +103,9 @@ export default function Jobs({ auth }) {
                     <div className="col-span-1 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                         <div className="p-6 w-full">
                             <p className="text-md font-bold mb-5">
-                                👋🏻 Kita bisa tambah pekerjaan baru disini
+                                Buat Pekerjaan Baru
                             </p>
-                            <a href="/export">haha</a>
+
                             <div className="flex flex-col mb-4 gap-4">
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm">
@@ -245,30 +216,12 @@ export default function Jobs({ auth }) {
                             </div>
                             <div className="flex flex-row justify-end">
                                 <button
-                                    className="bg-indigo-500 px-4 py-1 rounded-lg"
+                                    className="bg-blue-900 px-4 py-1 rounded-lg"
                                     onClick={(e) => addJob(e)}
                                 >
                                     <p className="text-white text-sm">Submit</p>
                                 </button>
                             </div>
-                            <div className="flex flex-col gap-2">
-                                <label className="text-sm">import</label>
-                                <input
-                                    onChange={(e) =>
-                                        setExcel(e.target.files[0])
-                                    }
-                                    className="rounded-lg border border-gray-300"
-                                    type="file"
-                                    value={excel.File}
-                                />
-                            </div>
-                            <button
-                                onClick={(e) => {
-                                    importExcel(e);
-                                }}
-                            >
-                                haha
-                            </button>
                         </div>
                     </div>
                 </div>

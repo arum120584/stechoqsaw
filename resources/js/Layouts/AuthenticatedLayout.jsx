@@ -35,10 +35,34 @@ export default function Authenticated({ user, header, children }) {
                                     Beranda
                                 </NavLink>
                                 <NavLink
+                                    href={route("user.all")}
+                                    active={route().current("user.all")}
+                                >
+                                    Pengguna
+                                </NavLink>
+                                <NavLink
                                     href={route("jobs.getjobs")}
                                     active={route().current("jobs.getjobs")}
                                 >
                                     Pekerjaan
+                                </NavLink>
+                                <NavLink
+                                    href={route("jobs.getjobs")}
+                                    active={route().current("jobs.getjobs")}
+                                >
+                                    Penyeleksian
+                                </NavLink>
+                                <NavLink
+                                    href={route("jobs.getjobs")}
+                                    active={route().current("jobs.getjobs")}
+                                >
+                                    Kriteria
+                                </NavLink>
+                                <NavLink
+                                    href={route("participant.all")}
+                                    active={route().current("participant.all")}
+                                >
+                                    Kandidat
                                 </NavLink>
                             </div>
                         </div>

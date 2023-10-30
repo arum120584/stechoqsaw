@@ -100,8 +100,11 @@ export default function DetailParticipant({ auth }) {
                 weight: weight,
                 value: candValue,
                 note: note,
+                selection_id: data.participant.selection_id,
             },
+            // preserveState: true,
         });
+        // return to_route("selections.detail", 2);
     };
 
     const updateParticipantCriteria = (e) => {

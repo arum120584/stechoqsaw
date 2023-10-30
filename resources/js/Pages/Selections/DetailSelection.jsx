@@ -9,7 +9,6 @@ export default function DetailSelection({ auth }) {
     // const [results, setResults] = useState(
     //     data.participants.data.sort((a, b) => b.score - a.score)
     // );
-    const [results, setResults] = useState([]);
 
     const total_weight =
         data.selection.selection_criterias.length > 0 &&
@@ -35,16 +34,48 @@ export default function DetailSelection({ auth }) {
             method: "post",
             data: {
                 file: excel,
+                selection_id: data.selection.id,
             },
             forceFormData: true,
             preserveState: true,
             preserveScroll: true,
         });
+        setExcel({});
     };
 
-    const getPage = (e) => {
+    const firstPage = (e) => {
+        e.preventDefault();
+        router.visit(`${data.participants.first_page_url}`, {
+            method: "get",
+            preserveState: true,
+            preserveScroll: true,
+        });
+        setTab("kandidat");
+    };
+
+    const prevPage = (e) => {
+        e.preventDefault();
+        router.visit(`${data.participants.prev_page_url}`, {
+            method: "get",
+            preserveState: true,
+            preserveScroll: true,
+        });
+        setTab("kandidat");
+    };
+
+    const nextPage = (e) => {
         e.preventDefault();
         router.visit(`${data.participants.next_page_url}`, {
+            method: "get",
+            preserveState: true,
+            preserveScroll: true,
+        });
+        setTab("kandidat");
+    };
+
+    const lastPage = (e) => {
+        e.preventDefault();
+        router.visit(`${data.participants.last_page_url}`, {
             method: "get",
             preserveState: true,
             preserveScroll: true,
@@ -59,6 +90,7 @@ export default function DetailSelection({ auth }) {
         });
     };
 
+    // fungsi SAW
     const startSaw = (e, idselection) => {
         e.preventDefault();
         router.visit(`/startsaw/${idselection}`, {
@@ -68,9 +100,13 @@ export default function DetailSelection({ auth }) {
             router.visit(`/startsaw/${idselection}`, {
                 method: "get",
             });
-        }, 3500);
-        // console.log(data.participants);
+        }, 2000);
     };
+
+    // cek apabila semua participant pada tahap seleksi ini sudah dinilai semua, maka tombol "seleksi" akan muncul
+    let cek = data.participants.data.filter(
+        (participant) => participant.participant_criteria.length > 0
+    );
 
     return (
         <AuthenticatedLayout
@@ -81,15 +117,15 @@ export default function DetailSelection({ auth }) {
                         Tahap Seleksi - {data.selection.name}
                     </h2>
                     <p className="text-sm text-slate-400">
-                        <Link className="text-indigo-500" href="/jobs">
+                        <Link className="text-blue-900" href="/jobs">
                             Pekerjaan
                         </Link>
                         /
-                        <Link className="text-indigo-500" href="/jobs">
+                        <Link className="text-blue-900" href="/jobs">
                             {data.selection.job.job_name}
                         </Link>
                         /
-                        <Link className="text-indigo-500" href="/jobs">
+                        <Link className="text-blue-900" href="/jobs">
                             Tahap Seleksi
                         </Link>
                         /{data.selection.name}
@@ -136,15 +172,15 @@ export default function DetailSelection({ auth }) {
                             onClick={() => setTab("kriteria")}
                             className={`${
                                 tab === "kriteria"
-                                    ? "bg-indigo-500"
-                                    : "border border-indigo-500"
+                                    ? "bg-blue-900"
+                                    : "border border-blue-900"
                             } px-4 py-1 rounded-lg`}
                         >
                             <p
                                 className={`${
                                     tab === "kriteria"
                                         ? "text-white"
-                                        : "text-indigo-500"
+                                        : "text-blue-900"
                                 } text-sm`}
                             >
                                 Kriteria
@@ -154,38 +190,41 @@ export default function DetailSelection({ auth }) {
                             onClick={() => setTab("kandidat")}
                             className={`${
                                 tab === "kandidat"
-                                    ? "bg-indigo-500"
-                                    : "border border-indigo-500"
+                                    ? "bg-blue-900"
+                                    : "border border-blue-900"
                             } px-4 py-1 rounded-lg`}
                         >
                             <p
                                 className={`${
                                     tab === "kandidat"
                                         ? "text-white"
-                                        : "text-indigo-500"
+                                        : "text-blue-900"
                                 } text-sm`}
                             >
                                 Kandidat
                             </p>
                         </button>
-                        <button
-                            onClick={() => setTab("seleksi")}
-                            className={`${
-                                tab === "seleksi"
-                                    ? "bg-indigo-500"
-                                    : "border border-indigo-500"
-                            } px-4 py-1 rounded-lg`}
-                        >
-                            <p
-                                className={`${
-                                    tab === "seleksi"
-                                        ? "text-white"
-                                        : "text-indigo-500"
-                                } text-sm`}
-                            >
-                                Hasil Seleksi
-                            </p>
-                        </button>
+                        {data.participants.length > 0 &&
+                            data.participants.data[0].score !== null && (
+                                <button
+                                    onClick={() => setTab("seleksi")}
+                                    className={`${
+                                        tab === "seleksi"
+                                            ? "bg-blue-900"
+                                            : "border border-blue-900"
+                                    } px-4 py-1 rounded-lg`}
+                                >
+                                    <p
+                                        className={`${
+                                            tab === "seleksi"
+                                                ? "text-white"
+                                                : "text-blue-900"
+                                        } text-sm`}
+                                    >
+                                        Hasil Seleksi
+                                    </p>
+                                </button>
+                            )}
                     </div>
                 </div>
                 {/* END TAB ACTION */}
@@ -314,14 +353,17 @@ export default function DetailSelection({ auth }) {
                                 >
                                     <p className="text-sm">Download Kandidat</p>
                                 </button>
-                                <button
-                                    onClick={(e) =>
-                                        startSaw(e, data.selection.id)
-                                    }
-                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
-                                >
-                                    <p className="text-sm">Mulai Seleksi</p>
-                                </button>
+                                {cek.length ===
+                                    data.participants.data.length && (
+                                    <button
+                                        onClick={(e) =>
+                                            startSaw(e, data.selection.id)
+                                        }
+                                        className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                    >
+                                        <p className="text-sm">Mulai Seleksi</p>
+                                    </button>
+                                )}
                             </div>
                         </div>
                         <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
@@ -343,6 +385,9 @@ export default function DetailSelection({ auth }) {
                                             </th>
                                             <th className="py-3 px-4 text-sm">
                                                 Semester
+                                            </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Status Penilaian
                                             </th>
                                             <th className="py-3 px-4 w-10 text-sm">
                                                 Aksi
@@ -381,6 +426,16 @@ export default function DetailSelection({ auth }) {
                                                                     participant.semester
                                                                 }
                                                             </td>
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {participant
+                                                                    .participant_criteria
+                                                                    .length >
+                                                                0 ? (
+                                                                    <i className="bx bx-fw bx-check-circle text-emerald-500"></i>
+                                                                ) : (
+                                                                    ""
+                                                                )}
+                                                            </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50">
                                                                 <div className="flex items-center gap-2">
                                                                     <button
@@ -392,7 +447,7 @@ export default function DetailSelection({ auth }) {
                                                                                 participant.id
                                                                             )
                                                                         }
-                                                                        className="bg-indigo-500 px-2 py-1 rounded-lg"
+                                                                        className="bg-blue-900 px-2 py-1 rounded-lg"
                                                                     >
                                                                         <i className="bx bx-fw bx-cog text-white"></i>
                                                                     </button>
@@ -409,23 +464,40 @@ export default function DetailSelection({ auth }) {
                             </div>
                         </div>
                         <div className="flex justify-end items-center gap-1 mt-3">
-                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
-                                <i className="bx bx-fw bx-chevrons-left"></i>
-                            </button>
-                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
-                                <i className="bx bx-fw bx-chevron-left"></i>
-                            </button>
-                            <button
-                                onClick={(e) => {
-                                    getPage(e);
-                                }}
-                                className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
-                            >
-                                <i className="bx bx-fw bx-chevron-right"></i>
-                            </button>
-                            <button className="bg-white border border-slate-200 px-2 py-1 rounded-lg">
-                                <i className="bx bx-fw bx-chevrons-right"></i>
-                            </button>
+                            {data.participants.first_page_url !== null && (
+                                <button
+                                    onClick={(e) => firstPage(e)}
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <i className="bx bx-fw bx-chevrons-left"></i>
+                                </button>
+                            )}
+                            {data.participants.prev_page_url !== null && (
+                                <button
+                                    onClick={(e) => prevPage(e)}
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <i className="bx bx-fw bx-chevron-left"></i>
+                                </button>
+                            )}
+                            {data.participants.next_page_url !== null && (
+                                <button
+                                    onClick={(e) => {
+                                        nextPage(e);
+                                    }}
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <i className="bx bx-fw bx-chevron-right"></i>
+                                </button>
+                            )}
+                            {data.participants.last_page_url !== null && (
+                                <button
+                                    onClick={(e) => lastPage(e)}
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <i className="bx bx-fw bx-chevrons-right"></i>
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}
