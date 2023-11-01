@@ -34,12 +34,14 @@ export default function Authenticated({ user, header, children }) {
                                 >
                                     Beranda
                                 </NavLink>
-                                <NavLink
-                                    href={route("user.all")}
-                                    active={route().current("user.all")}
-                                >
-                                    Pengguna
-                                </NavLink>
+                                {user.role !== "STAFF" && (
+                                    <NavLink
+                                        href={route("user.all")}
+                                        active={route().current("user.all")}
+                                    >
+                                        Pengguna
+                                    </NavLink>
+                                )}
                                 <NavLink
                                     href={route("jobs.getjobs")}
                                     active={route().current("jobs.getjobs")}

@@ -108,6 +108,25 @@ export default function DetailSelection({ auth }) {
         (participant) => participant.participant_criteria.length > 0
     );
 
+    let resultRankings =
+        data.participants.data.length > 0 &&
+        data.participants.data.sort((a, b) => b.score - a.score);
+
+    const nextSelection = (e, idselection) => {
+        e.preventDefault();
+        router.visit(`/participant/add`, {
+            method: "post",
+            data: {
+                participants: resultRankings,
+                selection_id: idselection,
+                job_id: data.selection.job_id,
+                limit: parseInt(
+                    window.prompt("Berapa banyak kandidat yang ingin diambil?")
+                ),
+            },
+        });
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -167,64 +186,82 @@ export default function DetailSelection({ auth }) {
 
                 {/* TAB ACTION */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-5">
-                    <div className="flex flex-row items-center gap-2">
-                        <button
-                            onClick={() => setTab("kriteria")}
-                            className={`${
-                                tab === "kriteria"
-                                    ? "bg-blue-900"
-                                    : "border border-blue-900"
-                            } px-4 py-1 rounded-lg`}
-                        >
-                            <p
+                    <div
+                        className={
+                            tab === "seleksi"
+                                ? "flex justify-between items-center"
+                                : ""
+                        }
+                    >
+                        <div className="flex flex-row items-center gap-2">
+                            <button
+                                onClick={() => setTab("kriteria")}
                                 className={`${
                                     tab === "kriteria"
-                                        ? "text-white"
-                                        : "text-blue-900"
-                                } text-sm`}
+                                        ? "bg-blue-900"
+                                        : "border border-blue-900"
+                                } px-4 py-1 rounded-lg`}
                             >
-                                Kriteria
-                            </p>
-                        </button>
-                        <button
-                            onClick={() => setTab("kandidat")}
-                            className={`${
-                                tab === "kandidat"
-                                    ? "bg-blue-900"
-                                    : "border border-blue-900"
-                            } px-4 py-1 rounded-lg`}
-                        >
-                            <p
+                                <p
+                                    className={`${
+                                        tab === "kriteria"
+                                            ? "text-white"
+                                            : "text-blue-900"
+                                    } text-sm`}
+                                >
+                                    Kriteria
+                                </p>
+                            </button>
+                            <button
+                                onClick={() => setTab("kandidat")}
                                 className={`${
                                     tab === "kandidat"
-                                        ? "text-white"
-                                        : "text-blue-900"
-                                } text-sm`}
+                                        ? "bg-blue-900"
+                                        : "border border-blue-900"
+                                } px-4 py-1 rounded-lg`}
                             >
-                                Kandidat
-                            </p>
-                        </button>
-                        {data.participants.length > 0 &&
-                            data.participants.data[0].score !== null && (
-                                <button
-                                    onClick={() => setTab("seleksi")}
+                                <p
                                     className={`${
-                                        tab === "seleksi"
-                                            ? "bg-blue-900"
-                                            : "border border-blue-900"
-                                    } px-4 py-1 rounded-lg`}
+                                        tab === "kandidat"
+                                            ? "text-white"
+                                            : "text-blue-900"
+                                    } text-sm`}
                                 >
-                                    <p
+                                    Kandidat
+                                </p>
+                            </button>
+                            {data.participants.data.length > 0 &&
+                                data.participants.data[0].score !== null && (
+                                    <button
+                                        onClick={() => setTab("seleksi")}
                                         className={`${
                                             tab === "seleksi"
-                                                ? "text-white"
-                                                : "text-blue-900"
-                                        } text-sm`}
+                                                ? "bg-blue-900"
+                                                : "border border-blue-900"
+                                        } px-4 py-1 rounded-lg`}
                                     >
-                                        Hasil Seleksi
-                                    </p>
-                                </button>
-                            )}
+                                        <p
+                                            className={`${
+                                                tab === "seleksi"
+                                                    ? "text-white"
+                                                    : "text-blue-900"
+                                            } text-sm`}
+                                        >
+                                            Hasil Seleksi
+                                        </p>
+                                    </button>
+                                )}
+                        </div>
+                        {tab === "seleksi" && (
+                            <button
+                                onClick={(e) =>
+                                    nextSelection(e, data.selection.id)
+                                }
+                                className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                            >
+                                <p className="text-sm">Lanjut Seleksi</p>
+                            </button>
+                        )}
                     </div>
                 </div>
                 {/* END TAB ACTION */}
@@ -520,12 +557,9 @@ export default function DetailSelection({ auth }) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.participants.data.length > 0 &&
-                                            data.participants.data
-                                                .sort(
-                                                    (a, b) => b.score - a.score
-                                                )
-                                                .map((participant, idx) => {
+                                        {resultRankings.length > 0 &&
+                                            resultRankings.map(
+                                                (participant, idx) => {
                                                     return (
                                                         <tr
                                                             key={participant.id}
@@ -545,7 +579,8 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                         </tr>
                                                     );
-                                                })}
+                                                }
+                                            )}
                                     </tbody>
                                 </table>
                             </div>

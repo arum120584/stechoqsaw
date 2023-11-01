@@ -48,9 +48,14 @@ Route::get('/dashboard', function () {
 
 // Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'admin')->group(function () {
 
     Route::get('/users', [UsersController::class, 'getUsers'])->name('user.all');
+    Route::get('/user/form/add', [UsersController::class, 'formAddUser'])->name('user.formadd');
+    Route::post('/user/add', [UsersController::class, 'addUser'])->name('user.add');
+    Route::get('/user/form/detail/{id}', [UsersController::class, 'formDetailUser'])->name('user.formdetail');
+    Route::put('/user/update/{id}', [UsersController::class, 'updateUser'])->name('user.update');
+    Route::delete('/user/delete/{id}', [UsersController::class, 'deleteUser'])->name('user.delete');
 
     Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
     Route::get('/job/detail/{id}', [JobsController::class, 'getJob'])->name('jobs.getjob');
@@ -76,6 +81,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/participants', [ParticipantsController::class, 'getParticipants'])->name('participant.all');
     Route::get('/participant/detail/{id}', [ParticipantsController::class, 'getParticipant'])->name('participant.detail');
+    Route::post('/participant/add', [ParticipantsController::class, 'addParticipant'])->name('participant.add');
     Route::post('/participant/add/criteria', [ParticipantsController::class, 'addParticipantCriteria'])->name('participant.addcriteria');
     Route::put('/participant/update/criteria', [ParticipantsController::class, 'updateParticipantCriteria'])->name('participant.updatecriteria');
     Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');

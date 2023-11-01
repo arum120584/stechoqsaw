@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Models\ParticipantCriteria;
 use App\Models\SelectionCriteria;
+use App\Models\Selection;
 use Inertia\Inertia;
 
 class ParticipantsController extends Controller
@@ -14,10 +15,48 @@ class ParticipantsController extends Controller
     public function getParticipant($id)
     {
         $participant = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->find($id);
-        // $selectioncriterias = 
+
         return Inertia::render('Participants/DetailParticipant', [
             'participant' => $participant
         ]);
+    }
+
+    public function addParticipant(Request $request)
+    {
+        $participants = collect($request->participants);
+
+        $selection_id = $request->selection_id;
+        $limit = $request->limit;
+        $job_id = $request->job_id;
+        $limitparticipants = $participants->take($limit);
+        $selections = Selection::where('job_id', '=', $job_id)->get()->toArray();
+
+        //mencari selection_id yang sekarang itu index ke berapa
+        $index = array_search($selection_id, array_column($selections, 'id'));
+
+        foreach($limitparticipants as $participant) {
+            $newparticipant = new Participant();
+            $newparticipant->nim = $participant['nim'];
+            $newparticipant->name = $participant['name'];
+            $newparticipant->university = $participant['university'];
+            $newparticipant->status = $participant['status'];
+            $newparticipant->semester = $participant['semester'];
+            $newparticipant->email = $participant['email'];
+            $newparticipant->phone = $participant['phone'];
+            $newparticipant->selection_id = $selections[$index + 1]['id'];
+
+            $newparticipant->save();
+        }
+
+        $prevselection = Selection::find($selection_id);
+        $nextselection = Selection::find($selections[$index +1]['id']);
+
+        $prevselection->status = "SELESAI";
+        $prevselection->save();
+        $nextselection->status = "BERLANGSUNG";
+        $nextselection->save();
+
+        return redirect()->route('selections.detail', ['id' => $selections[$index + 1]['id']]);
     }
 
     public function addParticipantCriteria(Request $request)
@@ -65,8 +104,6 @@ class ParticipantsController extends Controller
         $values = $request->value;
         $weights = $request->weight;
         $notes = $request->note;
-
-        // return [$weights, $values, $participantCriteriaId];
 
         //mapping data $selectionCriteriaId dan ambil 'id' nya saja
         $selectionCriteriaIdArray = array_map(function ($selectionCriteria) {
