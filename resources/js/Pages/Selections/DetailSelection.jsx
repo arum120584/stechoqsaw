@@ -6,9 +6,6 @@ export default function DetailSelection({ auth }) {
     const data = usePage().props;
     const [tab, setTab] = useState("kriteria");
     const [excel, setExcel] = useState({});
-    // const [results, setResults] = useState(
-    //     data.participants.data.sort((a, b) => b.score - a.score)
-    // );
 
     const total_weight =
         data.selection.selection_criterias.length > 0 &&
@@ -90,6 +87,13 @@ export default function DetailSelection({ auth }) {
         });
     };
 
+    const deleteParticipant = (e, id) => {
+        e.preventDefault();
+        router.visit(`/participant/delete/${id}`, {
+            method: "delete",
+        });
+    };
+
     // fungsi SAW
     const startSaw = (e, idselection) => {
         e.preventDefault();
@@ -124,6 +128,30 @@ export default function DetailSelection({ auth }) {
                     window.prompt("Berapa banyak kandidat yang ingin diambil?")
                 ),
             },
+        });
+    };
+
+    const formAddCriteria = (e) => {
+        e.preventDefault();
+        router.visit(`/selectioncriteria/form/add`, {
+            method: "post",
+            data: {
+                selection_id: data.selection.id,
+            },
+        });
+    };
+
+    const editCriteria = (e, id) => {
+        e.preventDefault();
+        router.visit(`/selectioncriteria/detail/${id}`, {
+            method: "get",
+        });
+    };
+
+    const deleteCriteria = (e, id) => {
+        e.preventDefault();
+        router.visit(`/selectioncriteria/delete/${id}`, {
+            method: "delete",
         });
     };
 
@@ -270,6 +298,16 @@ export default function DetailSelection({ auth }) {
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                             <div className="p-6 w-full">
+                                <div className="flex flex-row mb-5 justify-end">
+                                    <button
+                                        onClick={(e) => formAddCriteria(e)}
+                                        className="bg-blue-900 px-4 py-1 rounded-lg"
+                                    >
+                                        <p className="text-white text-sm">
+                                            Tambah Baru
+                                        </p>
+                                    </button>
+                                </div>
                                 <table className="w-full">
                                     <thead className="bg-gray-100 text-left">
                                         <tr>
@@ -336,10 +374,33 @@ export default function DetailSelection({ auth }) {
                                                                     >
                                                                         <i className="bx bx-fw bx-transfer-alt text-white"></i>
                                                                     </button>
-                                                                    <button className="bg-orange-500 px-2 py-1 rounded-lg">
+                                                                    <button
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            editCriteria(
+                                                                                e,
+                                                                                criteria.id
+                                                                            )
+                                                                        }
+                                                                        className="bg-orange-500 px-2 py-1 rounded-lg"
+                                                                    >
                                                                         <i className="bx bx-fw bx-edit text-white"></i>
                                                                     </button>
-                                                                    <button className="bg-red-500 px-2 py-1 rounded-lg">
+                                                                    <button
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            confirm(
+                                                                                "Apakah yakin ingin menghapus?"
+                                                                            ) &&
+                                                                            deleteCriteria(
+                                                                                e,
+                                                                                criteria.id
+                                                                            )
+                                                                        }
+                                                                        className="bg-red-500 px-2 py-1 rounded-lg"
+                                                                    >
                                                                         <i className="bx bx-fw bx-trash text-white"></i>
                                                                     </button>
                                                                 </div>
@@ -475,7 +536,7 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50">
                                                                 <div className="flex items-center gap-2">
-                                                                    <button
+                                                                    <i
                                                                         onClick={(
                                                                             e
                                                                         ) =>
@@ -484,13 +545,23 @@ export default function DetailSelection({ auth }) {
                                                                                 participant.id
                                                                             )
                                                                         }
-                                                                        className="bg-blue-900 px-2 py-1 rounded-lg"
-                                                                    >
-                                                                        <i className="bx bx-fw bx-cog text-white"></i>
-                                                                    </button>
-                                                                    <button className="bg-red-500 px-2 py-1 rounded-lg">
-                                                                        <i className="bx bx-fw bx-trash text-white"></i>
-                                                                    </button>
+                                                                        className="bx bx-fw bx-info-circle text-blue-900"
+                                                                    ></i>
+
+                                                                    <i
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            confirm(
+                                                                                "Apakah yakin ingin menghapus?"
+                                                                            ) &&
+                                                                            deleteParticipant(
+                                                                                e,
+                                                                                participant.id
+                                                                            )
+                                                                        }
+                                                                        className="bx bx-fw bx-trash text-rose-500"
+                                                                    ></i>
                                                                 </div>
                                                             </td>
                                                         </tr>

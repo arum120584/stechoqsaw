@@ -2,20 +2,19 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, router } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function Jobs({ auth }) {
+export default function EditJob({ auth }) {
     const data = usePage().props;
-    const [jobs, setJobs] = useState(data.jobs);
-    const [jobName, setJobName] = useState("");
-    const [description, setDescription] = useState("");
-    const [jobType, setJobType] = useState("");
+    const [jobName, setJobName] = useState(data.job.job_name);
+    const [description, setDescription] = useState(data.job.description);
+    const [jobType, setJobType] = useState(data.job.type);
     const [photoJob, setPhotoJob] = useState({});
-    const [division, setDivision] = useState("");
-    const [dueDate, setDueDate] = useState("");
+    const [division, setDivision] = useState(data.job.division);
+    const [dueDate, setDueDate] = useState(data.job.due_date);
+    const [status, setStatus] = useState(data.job.status);
 
-    const addJob = (e) => {
+    const updateJob = (e) => {
         e.preventDefault();
-        // return console.log(photoJob);
-        router.visit("/job/add", {
+        router.visit(`/job/update/${data.job.id}`, {
             method: "post",
             data: {
                 job_name: jobName,
@@ -24,14 +23,9 @@ export default function Jobs({ auth }) {
                 image: photoJob,
                 division: division,
                 due_date: dueDate,
+                status: status,
             },
             forceFormData: true,
-        });
-    };
-
-    const getJob = (id) => {
-        router.visit(`/job/detail/${id}`, {
-            method: "get",
         });
     };
 
@@ -40,70 +34,18 @@ export default function Jobs({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Pekerjaan
+                    Edit {data.job.name}
                 </h2>
             }
         >
-            <Head title="Jobs" />
+            <Head title="Edit Pekerjaan" />
 
             <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 gap-3 grid grid-cols-3">
-                    <div className="col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
-                        <div className="p-6 w-full">
-                            <table className="w-full">
-                                <thead className="bg-gray-100 text-left">
-                                    <tr>
-                                        <th className="py-3 px-4 w-4 text-sm">
-                                            No
-                                        </th>
-                                        <th className="py-3 px-4 text-sm">
-                                            Nama Pekerjaan
-                                        </th>
-                                        <th className="py-3 px-4 text-sm">
-                                            Tipe
-                                        </th>
-                                        <th className="py-3 px-4 w-10 text-sm">
-                                            Aksi
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {jobs.map((job, idx) => {
-                                        return (
-                                            <tr key={job.id}>
-                                                <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
-                                                    {idx + 1}
-                                                </td>
-                                                <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
-                                                    {job.job_name}
-                                                </td>
-                                                <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
-                                                    {job.type}
-                                                </td>
-                                                <td className="py-3 px-4 border-b-2 border-gray-50">
-                                                    <div className="flex items-center gap-2">
-                                                        <i
-                                                            onClick={() =>
-                                                                getJob(job.id)
-                                                            }
-                                                            className="bx bx-fw bx-info-circle text-blue-900"
-                                                        ></i>
-                                                        <i className="bx bx-fw bx-edit-alt text-amber-500"></i>
-                                                        <i className="bx bx-fw bx-trash text-rose-500"></i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div className="col-span-1 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                         <div className="p-6 w-full">
                             <p className="text-md font-bold mb-5">
-                                Buat Pekerjaan Baru
+                                Edit Pekerjaan
                             </p>
 
                             <div className="flex flex-col mb-4 gap-4">
@@ -142,7 +84,7 @@ export default function Jobs({ auth }) {
                                         onChange={(e) =>
                                             setJobType(e.target.value)
                                         }
-                                        defaultValue={0}
+                                        value={jobType}
                                         className="rounded-lg border border-gray-300"
                                     >
                                         <option disabled value={0}>
@@ -183,7 +125,7 @@ export default function Jobs({ auth }) {
                                         onChange={(e) =>
                                             setDivision(e.target.value)
                                         }
-                                        defaultValue={0}
+                                        value={division !== null ? division : 0}
                                         className="rounded-lg border border-gray-300"
                                     >
                                         <option disabled value={0}>
@@ -213,13 +155,32 @@ export default function Jobs({ auth }) {
                                         value={dueDate}
                                     />
                                 </div>
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-sm">Status</label>
+                                    <select
+                                        onChange={(e) =>
+                                            setStatus(e.target.value)
+                                        }
+                                        value={status !== null ? status : 0}
+                                        className="rounded-lg border border-gray-300"
+                                    >
+                                        <option disabled value={0}>
+                                            Pilih status
+                                        </option>
+                                        <option value={"BUKA"}>BUKA</option>
+                                        <option value={"TUTUP"}>TUTUP</option>
+                                        <option value={"DRAFT"}>DRAFT</option>
+                                    </select>
+                                </div>
                             </div>
                             <div className="flex flex-row justify-end">
                                 <button
                                     className="bg-blue-900 px-4 py-1 rounded-lg"
-                                    onClick={(e) => addJob(e)}
+                                    onClick={(e) => updateJob(e)}
                                 >
-                                    <p className="text-white text-sm">Submit</p>
+                                    <p className="text-white text-sm">
+                                        Simpan Perubahan
+                                    </p>
                                 </button>
                             </div>
                         </div>

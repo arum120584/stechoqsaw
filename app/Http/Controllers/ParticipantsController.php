@@ -12,11 +12,29 @@ use Inertia\Inertia;
 
 class ParticipantsController extends Controller
 {
+    public function getParticipants()
+    {
+        $participants = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.job', 'selection.selectionCriterias')->paginate(50);
+
+        return Inertia::render('Participants/Participants', [
+            'participants' => $participants
+        ]);
+    }
+
     public function getParticipant($id)
     {
         $participant = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->find($id);
 
         return Inertia::render('Participants/DetailParticipant', [
+            'participant' => $participant
+        ]);
+    }
+
+    public function biodataParticipant($id)
+    {
+        $participant = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->find($id);
+
+        return Inertia::render('Participants/BiodataParticipant', [
             'participant' => $participant
         ]);
     }
@@ -57,6 +75,48 @@ class ParticipantsController extends Controller
         $nextselection->save();
 
         return redirect()->route('selections.detail', ['id' => $selections[$index + 1]['id']]);
+    }
+
+    public function updateParticipant(Request $request, $id)
+    {
+        $participant = Participant::find($id);
+        $participant->second_id = $request->second_id;
+        $participant->nim = $request->nim;
+        $participant->applied = $request->applied;
+        $participant->name = $request->name;
+        $participant->position = $request->position;
+        $participant->university = $request->university;
+        $participant->major = $request->major;
+        $participant->status = $request->status;
+        $participant->ipk = $request->ipk;
+        $participant->semester = $request->semester;
+        $participant->entry_year = $request->entry_year;
+        $participant->status_of_entry = $request->status_of_entry;
+        $participant->university_type = $request->university_type;
+        $participant->email = $request->email;
+        $participant->phone = $request->phone;
+        $participant->link_whatsapp = $request->link_whatsapp;
+        $participant->registration_eligibility_status = $request->registration_eligibility_status;
+        $participant->survey_kebhinekaan_status = $request->survey_kebhinekaan_status;
+        $participant->letter_of_recommendadtion = $request->letter_of_recommendadtion;
+        $participant->spjtm = $request->spjtm;
+        $participant->cv = $request->cv;
+        $participant->transcripts = $request->transcripts;
+        $participant->certificate_organization_one = $request->certificate_organization_one;
+        $participant->certificate_organization_two = $request->certificate_organization_two;
+        $participant->certificate_organization_three = $request->certificate_organization_three;
+        $participant->certificate_organization_four = $request->certificate_organization_four;
+        $participant->certificate_organization_five = $request->certificate_organization_five;
+
+        $participant->save();
+
+        // return redirect()->route('participant.all');
+    }
+
+    public function deleteParticipant($id)
+    {
+        $participant = Participant::find($id);
+        $participant->delete();
     }
 
     public function addParticipantCriteria(Request $request)

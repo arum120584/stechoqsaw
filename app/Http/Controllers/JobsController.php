@@ -12,7 +12,7 @@ class JobsController extends Controller
     public function getJobs()
     {
         $jobs = Job::all();
-        return Inertia::render('Jobs', [
+        return Inertia::render('Jobs/Jobs', [
             'jobs' => $jobs
         ]);
     }
@@ -24,6 +24,19 @@ class JobsController extends Controller
         return Inertia::render('Jobs/DetailJob', [
             'job' => $job
         ]);
+    }
+
+    public function formEditJob($id)
+    {
+        $job = Job::with('selections', 'selections.participants')->find($id);
+        return Inertia::render('Jobs/EditJob', [
+            'job' => $job,
+        ]);
+    }
+
+    public function formAddJob()
+    {
+        return Inertia::render('Jobs/AddJob');
     }
 
     public function createJob(Request $request)
@@ -41,7 +54,7 @@ class JobsController extends Controller
 
         if (!isset($request->image)) {
             Storage::delete('public/uploads/jobs/' . $job->image);
-            $job->image = "";
+            $job->image = NULL;
         } else {
 
             if ($request->hasFile('image')) {
@@ -59,9 +72,65 @@ class JobsController extends Controller
 
         $job->division = $request->division;
         $job->due_date = $request->due_date;
+        $job->status = $request->status;
 
         $job->save();
 
-        return to_route('jobs.getjobs');
+        return redirect()->route('jobs.getjobs');
+    }
+
+    public function updateJob(Request $request, $id)
+    {
+        $job = Job::find($id);
+
+        $job->job_name = $request->job_name;
+        $job->description = $request->description;
+        $job->type = $request->type;
+
+        // if (!isset($request->image)) {
+        //     Storage::delete('public/uploads/jobs/' . $job->image);
+        //     $job->image = $request->image;
+        // } else {
+
+        //     if ($request->hasFile('image')) {
+
+        //         if (isset($job->image)) {
+        //             Storage::delete('public/uploads/jobs/' . $job->image);
+        //         }
+
+        //         $image = $request->file('image');
+        //         $imageName = time() . '_' . $image->getClientOriginalName();
+        //         $image->storeAs('public/uploads/jobs', $imageName);
+        //         $job->image = $imageName;
+        //     }
+        // }
+
+        if ($request->hasFile('image')) {
+
+            if (isset($job->image)) {
+                Storage::delete('public/uploads/jobs/' . $job->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->storeAs('public/uploads/jobs', $imageName);
+            $job->image = $imageName;
+        }
+
+        $job->division = $request->division;
+        $job->due_date = $request->due_date;
+        $job->status = $request->status;
+
+        $job->save();
+
+        return redirect()->route('jobs.getjobs');
+    }
+
+    public function deleteJob($id)
+    {
+        $job = Job::find($id);
+        $job->delete();
+
+        return redirect()->route('jobs.getjobs');      
     }
 }

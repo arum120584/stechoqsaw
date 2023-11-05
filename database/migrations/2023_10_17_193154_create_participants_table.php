@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('ipk')->nullable();
             $table->integer('semester')->nullable();
             $table->year('entry_year')->nullable();
+            $table->string('status_of_entry')->nullable();
             $table->string('university_type')->nullable();
             $table->string("email")->nullable();
             $table->string("phone")->nullable();

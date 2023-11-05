@@ -59,10 +59,27 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
     Route::get('/job/detail/{id}', [JobsController::class, 'getJob'])->name('jobs.getjob');
+    Route::get('/job/form/add', [JobsController::class, 'formAddJob'])->name('jobs.formaddjob');
     Route::post('/job/add', [JobsController::class, 'createJob'])->name('jobs.createjob');
+    Route::get('/job/form/edit/{id}', [JobsController::class, 'formEditJob'])->name('jobs.formeditjob');
+    Route::post('/job/update/{id}', [JobsController::class, 'updateJob'])->name('jobs.updatejob');
+    Route::delete('/job/delete/{id}', [JobsController::class, 'deleteJob'])->name('jobs.deletejob');
 
+    Route::get('/selections', [SelectionsController::class, 'getSelections'])->name('selections.all');
     Route::get('/selection/detail/{id}', [SelectionsController::class, 'detail'])->name('selections.detail');
+    Route::get('/selection/form/add', [SelectionsController::class, 'formAddSelection'])->name('selections.formaddselection');
+    Route::get('/selection/form/edit/{id}', [SelectionsController::class, 'formEditSelection'])->name('selections.formeditselection');
+    Route::post('/selection/add', [SelectionsController::class, 'createSelection'])->name('selections.createselection');
+    Route::delete('/selection/add', [SelectionsController::class, 'createSelection'])->name('selections.createselection');
+    Route::put('/selection/update/{id}', [SelectionsController::class, 'updateSelection'])->name('selections.updateselection');
+    Route::delete('/selection/delete/{id}', [SelectionsController::class, 'deleteSelection'])->name('selections.deleteselection');
 
+    Route::get('/selectioncriterias', [SelectionCriteriasController::class, 'getSelectionCriterias'])->name('selectioncriterias.all');
+    Route::get('/selectioncriteria/detail/{id}', [SelectionCriteriasController::class, 'detailSelectionCriteria'])->name('selectioncriterias.detail');
+    Route::post('/selectioncriteria/form/add', [SelectionCriteriasController::class, 'formAddCriteria'])->name('selectioncriterias.formadd');
+    Route::post('/selectioncriteria/add', [SelectionCriteriasController::class, 'createSelectionCriteria'])->name('selectioncriterias.add');
+    Route::put('/selectioncriteria/update/{id}', [SelectionCriteriasController::class, 'updateSelectionCriteria'])->name('selectioncriterias.update');
+    Route::delete('/selectioncriteria/delete/{id}', [SelectionCriteriasController::class, 'deleteSelectionCriteria'])->name('selectioncriterias.delete');
     Route::put('/selectioncriteria/normalization/{id}', [SelectionCriteriasController::class, 'normalization'])->name('selectioncriteria.normalization');
 
 
@@ -81,9 +98,13 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::get('/participants', [ParticipantsController::class, 'getParticipants'])->name('participant.all');
     Route::get('/participant/detail/{id}', [ParticipantsController::class, 'getParticipant'])->name('participant.detail');
+    Route::get('/participant/biodata/{id}', [ParticipantsController::class, 'biodataParticipant'])->name('participant.biodata');
     Route::post('/participant/add', [ParticipantsController::class, 'addParticipant'])->name('participant.add');
+    Route::put('/participant/update/{id}', [ParticipantsController::class, 'updateParticipant'])->name('participant.update');
+    Route::delete('/participant/delete/{id}', [ParticipantsController::class, 'deleteParticipant'])->name('participant.delete');
+    
     Route::post('/participant/add/criteria', [ParticipantsController::class, 'addParticipantCriteria'])->name('participant.addcriteria');
-    Route::put('/participant/update/criteria', [ParticipantsController::class, 'updateParticipantCriteria'])->name('participant.updatecriteria');
+    Route::put('/participant/updatecriteria', [ParticipantsController::class, 'updateParticipantCriteria'])->name('participant.updatecriteria');
     Route::post('/participant/import', [ImportExportsController::class, 'importParticipants'])->name('importexport.importparticipants');
     Route::get('/participant/export', [ImportExportsController::class, 'exportParticipants'])->name('importexport.exportparticipants');
 

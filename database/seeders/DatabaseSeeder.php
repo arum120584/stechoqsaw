@@ -11,14 +11,14 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      */
     public function run(): void
-{
-    $this->call([
-        UserSeeder::class,
-        JobSeeder::class,
-        SelectionSeeder::class,
-        ParticipantSeeder::class,
-        SelectionCriteriaSeeder::class,
-        ParticipantCriteriaSeeder::class,
-    ]);
-}
+    {
+        $this->call([
+            UserSeeder::class,
+            JobSeeder::class,
+            SelectionSeeder::class,
+            ParticipantSeeder::class,
+            SelectionCriteriaSeeder::class,
+            // ParticipantCriteriaSeeder::class,
+        ]);
+    }
 }

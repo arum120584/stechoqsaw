@@ -49,14 +49,16 @@ export default function Authenticated({ user, header, children }) {
                                     Pekerjaan
                                 </NavLink>
                                 <NavLink
-                                    href={route("jobs.getjobs")}
-                                    active={route().current("jobs.getjobs")}
+                                    href={route("selections.all")}
+                                    active={route().current("selections.all")}
                                 >
                                     Penyeleksian
                                 </NavLink>
                                 <NavLink
-                                    href={route("jobs.getjobs")}
-                                    active={route().current("jobs.getjobs")}
+                                    href={route("selectioncriterias.all")}
+                                    active={route().current(
+                                        "selectioncriterias.all"
+                                    )}
                                 >
                                     Kriteria
                                 </NavLink>
