@@ -8,7 +8,7 @@ use App\Models\ParticipantCriteria;
 
 class SawsController extends Controller
 {
-    public function startSaw(Request $request, $selectionid)
+    public function startSaw($selectionid)
     {
         $participants = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->where('selection_id', '=', $selectionid)->get();
         $data = json_decode($participants);

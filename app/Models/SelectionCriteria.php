@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SelectionCriteria extends Model
-{
+{   
     use HasFactory;
     protected $table = 'selection_criterias';
 
@@ -18,5 +18,10 @@ class SelectionCriteria extends Model
     public function participantCriterias()
     {
         return $this->hasMany(ParticipantCriteria::class);
+    }
+
+    public function criteriaCrisps()
+    {
+        return $this->hasMany(CriteriaCrisp::class);
     }
 }

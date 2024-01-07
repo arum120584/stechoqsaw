@@ -188,7 +188,12 @@ export default function DetailParticipant({ auth }) {
                 note: note,
                 selection_id: data.participant.selection_id,
             },
-            // preserveState: true,
+            preserveState: true,
+            onSuccess: () => {
+                return Promise.all([
+                    toast.success("Peserta berhasil dinilai!")
+                ])
+            }
         });
         // return to_route("selections.detail", 2);
     };
@@ -206,6 +211,12 @@ export default function DetailParticipant({ auth }) {
                 weight: valueWeight,
                 note: valueNote,
             },
+            preserveState: true,
+            onSuccess: () => {
+                return Promise.all([
+                    toast.success("Peserta berhasil diupdate!")
+                ])
+            }
         });
         // console.log(criteriaId);
         // console.log(data.participant);
@@ -756,31 +767,9 @@ export default function DetailParticipant({ auth }) {
                                                             <label className="text-sm">
                                                                 Bobot
                                                             </label>
-                                                            {/* <input
-                                                                className="rounded-lg border border-gray-300"
-                                                                type="text"
-                                                                placeholder="Contoh: 5"
-                                                                value={
-                                                                    valueWeight[
-                                                                        idx
-                                                                    ]
-                                                                }
-                                                                onChange={(
-                                                                    e
-                                                                ) => {
-                                                                    handleValueWeight(
-                                                                        idx,
-                                                                        e.target
-                                                                            .value,
-                                                                        criteria.id
-                                                                    );
-                                                                }}
-                                                            /> */}
-                                                            {criteria
-                                                                .selection_criteria
-                                                                .type ===
-                                                            "BENEFIT" ? (
-                                                                <select
+                                                            
+                                                            
+                                                            <select
                                                                     value={
                                                                         valueWeight[
                                                                             idx
@@ -799,6 +788,7 @@ export default function DetailParticipant({ auth }) {
                                                                     }}
                                                                     className="rounded-lg border border-gray-300"
                                                                 >
+                                                                    
                                                                     <option
                                                                         disabled
                                                                         value={
@@ -808,128 +798,20 @@ export default function DetailParticipant({ auth }) {
                                                                         Pilih
                                                                         bobot
                                                                     </option>
-                                                                    <option
-                                                                        value={
-                                                                            5
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        SESUAI
-                                                                        (5)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            4
-                                                                        }
-                                                                    >
-                                                                        CUKUP
-                                                                        SESUAI
-                                                                        (4)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            3
-                                                                        }
-                                                                    >
-                                                                        SESUAI
-                                                                        (3)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            2
-                                                                        }
-                                                                    >
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (2)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            1
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (1)
-                                                                    </option>
+                                                                    {criteria.selection_criteria.criteria_crisps.map((crisps) => {
+                                                                        return (
+                                                                            <option
+                                                                                key={crisps.id}
+                                                                                value={
+                                                                                    crisps.weight
+                                                                                }
+                                                                            >
+                                                                                {crisps.title}
+                                                                            </option>
+                                                                        )
+                                                                    })}
+                                                                    
                                                                 </select>
-                                                            ) : (
-                                                                <select
-                                                                    onChange={(
-                                                                        e
-                                                                    ) => {
-                                                                        handleValueWeight(
-                                                                            idx,
-                                                                            e
-                                                                                .target
-                                                                                .value,
-                                                                            criteria.id
-                                                                        );
-                                                                    }}
-                                                                    value={
-                                                                        valueWeight[
-                                                                            idx
-                                                                        ]
-                                                                    }
-                                                                    className="rounded-lg border border-gray-300"
-                                                                >
-                                                                    <option
-                                                                        disabled
-                                                                        value={
-                                                                            0
-                                                                        }
-                                                                    >
-                                                                        Pilih
-                                                                        bobot
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            1
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        SESUAI
-                                                                        (1)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            2
-                                                                        }
-                                                                    >
-                                                                        CUKUP
-                                                                        SESUAI
-                                                                        (2)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            3
-                                                                        }
-                                                                    >
-                                                                        SESUAI
-                                                                        (3)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            4
-                                                                        }
-                                                                    >
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (4)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            5
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (5)
-                                                                    </option>
-                                                                </select>
-                                                            )}
                                                         </div>
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
@@ -1029,28 +911,8 @@ export default function DetailParticipant({ auth }) {
                                                             <label className="text-sm">
                                                                 Bobot
                                                             </label>
-                                                            {/* <input
-                                                                className="rounded-lg border border-gray-300"
-                                                                type="text"
-                                                                placeholder="Contoh: 5"
-                                                                value={
-                                                                    weight[
-                                                                        idx
-                                                                    ] || ""
-                                                                }
-                                                                onChange={(
-                                                                    e
-                                                                ) => {
-                                                                    handleWeight(
-                                                                        idx,
-                                                                        e.target
-                                                                            .value
-                                                                    );
-                                                                }}
-                                                            /> */}
-                                                            {criteria.type ===
-                                                            "BENEFIT" ? (
-                                                                <select
+                                                            
+                                                            <select
                                                                     onChange={(
                                                                         e
                                                                     ) => {
@@ -1077,127 +939,20 @@ export default function DetailParticipant({ auth }) {
                                                                         Pilih
                                                                         bobot
                                                                     </option>
-                                                                    <option
+                                                                    
+                                                                    {criteria.criteria_crisps.map((crisps) => {
+                                                                        return(
+                                                                            <option
+                                                                        key={crisps.id}
                                                                         value={
-                                                                            5
+                                                                            crisps.weight
                                                                         }
                                                                     >
-                                                                        SANGAT
-                                                                        SESUAI
-                                                                        (5)
+                                                                        {crisps.title}
                                                                     </option>
-                                                                    <option
-                                                                        value={
-                                                                            4
-                                                                        }
-                                                                    >
-                                                                        CUKUP
-                                                                        SESUAI
-                                                                        (4)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            3
-                                                                        }
-                                                                    >
-                                                                        SESUAI
-                                                                        (3)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            2
-                                                                        }
-                                                                    >
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (2)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            1
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (1)
-                                                                    </option>
+                                                                        )
+                                                                    })}
                                                                 </select>
-                                                            ) : (
-                                                                <select
-                                                                    onChange={(
-                                                                        e
-                                                                    ) => {
-                                                                        handleWeight(
-                                                                            idx,
-                                                                            e
-                                                                                .target
-                                                                                .value
-                                                                        );
-                                                                    }}
-                                                                    value={
-                                                                        weight[
-                                                                            idx
-                                                                        ] || 0
-                                                                    }
-                                                                    className="rounded-lg border border-gray-300"
-                                                                >
-                                                                    <option
-                                                                        disabled
-                                                                        value={
-                                                                            0
-                                                                        }
-                                                                    >
-                                                                        Pilih
-                                                                        bobot
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            1
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        SESUAI
-                                                                        (1)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            2
-                                                                        }
-                                                                    >
-                                                                        CUKUP
-                                                                        SESUAI
-                                                                        (2)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            3
-                                                                        }
-                                                                    >
-                                                                        SESUAI
-                                                                        (3)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            4
-                                                                        }
-                                                                    >
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (4)
-                                                                    </option>
-                                                                    <option
-                                                                        value={
-                                                                            5
-                                                                        }
-                                                                    >
-                                                                        SANGAT
-                                                                        TIDAK
-                                                                        SESUAI
-                                                                        (5)
-                                                                    </option>
-                                                                </select>
-                                                            )}
                                                         </div>
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">

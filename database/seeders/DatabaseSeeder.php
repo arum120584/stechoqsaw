@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             SelectionSeeder::class,
             ParticipantSeeder::class,
             SelectionCriteriaSeeder::class,
+            CriteriaCrispSeeder::class
             // ParticipantCriteriaSeeder::class,
         ]);
     }
