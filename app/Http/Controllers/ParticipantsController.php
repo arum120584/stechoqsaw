@@ -23,7 +23,7 @@ class ParticipantsController extends Controller
 
     public function getParticipant($id)
     {
-        $participant = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->find($id);
+        $participant = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria','participantCriteria.selectionCriteria.criteriaCrisps' , 'selection.selectionCriterias', 'selection.selectionCriterias.criteriaCrisps')->find($id);
 
         return Inertia::render('Participants/DetailParticipant', [
             'participant' => $participant

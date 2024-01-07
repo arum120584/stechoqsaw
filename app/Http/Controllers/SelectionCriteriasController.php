@@ -78,7 +78,7 @@ class SelectionCriteriasController extends Controller
 
     }
 
-    public function deleteSelectionCriteria(Request $request, $id)
+    public function deleteSelectionCriteria($id)
     {
         $selectioncriteria = SelectionCriteria::find($id);
         $selectioncriteria->delete();

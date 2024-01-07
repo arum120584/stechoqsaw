@@ -16,31 +16,39 @@ class SelectionCriteriaSeeder extends Seeder
         DB::table('selection_criterias')->insert(
             [
                 [
-                    'name' => 'Kelengkapan CV',
+                    'name' => 'Curiculum Vitae (CV)',
                     'type' => 'BENEFIT',
                     'weight' => 5,
-                    'weight_normalization' => 0.36,
                     'selection_id' => 1,
                 ],
                 [
-                    'name' => 'Surat Rekomendasi',
-                    'type' => 'BENEFIT',
-                    'weight' => 3,
-                    'weight_normalization' => 0.21,
-                    'selection_id' => 1,
-                ],
-                [
-                    'name' => 'Sertifikat Keaktifan',
+                    'name' => 'Pengetahuan Stechoq',
                     'type' => 'BENEFIT',
                     'weight' => 2,
-                    'weight_normalization' => 0.14,
                     'selection_id' => 1,
                 ],
                 [
-                    'name' => 'Portfolio Penunjang',
+                    'name' => 'Motivasi Kuat',
+                    'type' => 'BENEFIT',
+                    'weight' => 3,
+                    'selection_id' => 1,
+                ],
+                [
+                    'name' => 'Pengalaman Proyek',
                     'type' => 'BENEFIT',
                     'weight' => 4,
-                    'weight_normalization' => 0.29,
+                    'selection_id' => 1,
+                ],
+                [
+                    'name' => 'Mobilisasi',
+                    'type' => 'COST',
+                    'weight' => 3,
+                    'selection_id' => 1,
+                ],
+                [
+                    'name' => 'Perizinan',
+                    'type' => 'BENEFIT',
+                    'weight' => 4,
                     'selection_id' => 1,
                 ],
             ]
