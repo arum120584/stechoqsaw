@@ -191,7 +191,7 @@ export default function DetailParticipant({ auth }) {
             preserveState: true,
             onSuccess: () => {
                 return Promise.all([
-                    toast.success("Peserta berhasil dinilai!")
+                    toast.success("Peserta berhasil dinilaiz!")
                 ])
             }
         });

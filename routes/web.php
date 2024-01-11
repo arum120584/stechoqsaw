@@ -47,8 +47,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
-
 Route::middleware('auth', 'admin')->group(function () {
+
+    Route::get('/users', [UsersController::class, 'getUsers'])->name('user.all');
+    Route::get('/user/form/add', [UsersController::class, 'formAddUser'])->name('user.formadd');
+    Route::post('/user/add', [UsersController::class, 'addUser'])->name('user.add');
+    Route::get('/user/form/detail/{id}', [UsersController::class, 'formDetailUser'])->name('user.formdetail');
+    Route::put('/user/update/{id}', [UsersController::class, 'updateUser'])->name('user.update');
+    Route::delete('/user/delete/{id}', [UsersController::class, 'deleteUser'])->name('user.delete');
+    
+});
+
+Route::middleware('auth')->group(function () {
 
     Route::get('/users', [UsersController::class, 'getUsers'])->name('user.all');
     Route::get('/user/form/add', [UsersController::class, 'formAddUser'])->name('user.formadd');
