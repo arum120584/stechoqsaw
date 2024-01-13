@@ -7,7 +7,7 @@ use App\Http\Controllers\SelectionsController;
 use App\Http\Controllers\SelectionCriteriasController;
 use App\Http\Controllers\ParticipantsController;
 use App\Http\Controllers\SawsController;
-
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -42,9 +42,10 @@ Route::get('/', function () {
 
 Route::get('/home', [HomesController::class, 'index'])->name('home.index');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 // Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
 Route::middleware('auth', 'admin')->group(function () {

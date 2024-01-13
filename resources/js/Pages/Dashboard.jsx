@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { BarChart } from '@/Components/BarChart';
 Chart.register(CategoryScale);
 
 export default function Dashboard({ auth }) {
+    const propsData = usePage().props.statistics;
     const [chartData, setChartData] = useState({
         labels: Data.map((data) => data.year), 
         datasets: [
@@ -27,7 +28,6 @@ export default function Dashboard({ auth }) {
           }
         ]
     });
-    console.log(Data);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -37,8 +37,34 @@ export default function Dashboard({ auth }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="flex flex-row align-items-center gap-3 mb-5">
+                        <div className="p-4 bg-white border rounded-md w-full">
+                            <h1 className='text-sm mb-1'>
+                                <i className="bx bx-fw bx-user"></i>Total Pengguna
+                            </h1>
+                            <p className="text-2xl font-bold">{propsData[0]}</p>
+                        </div>
+                        <div className="p-4 bg-white border rounded-md w-full">
+                            <h1 className='text-sm mb-1'>
+                                <i className="bx bx-fw bx-user-circle"></i>Kandidat Daftar
+                            </h1>
+                            <p className="text-2xl font-bold">{propsData[1]}</p>
+                        </div>
+                        <div className="p-4 bg-white border rounded-md w-full">
+                            <h1 className='text-sm mb-1'>
+                                <i className="bx bx-fw bx-user-circle"></i>Peserta Aktif
+                            </h1>
+                            <p className="text-2xl font-bold">120</p>
+                        </div>
+                        <div className="p-4 bg-white border rounded-md w-full">
+                            <h1 className='text-sm mb-1'>
+                                <i className="bx bx-fw bx-briefcase"></i>Posisi Magang
+                            </h1>
+                            <p className="text-2xl font-bold">{propsData[2]}</p>
+                        </div>
+                        
+                    </div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">You're logged in!</div>
                         <BarChart chartData={chartData} />
                     </div>
                 </div>
