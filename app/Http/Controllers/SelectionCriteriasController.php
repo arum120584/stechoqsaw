@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\SelectionCriteria;
 use App\Models\Job;
 use Illuminate\Http\Request;
-
+use App\Models\CriteriaCrisp;
 use Inertia\Inertia;
 
 class SelectionCriteriasController extends Controller
@@ -16,10 +16,9 @@ class SelectionCriteriasController extends Controller
             'criterias' => $selectioncriterias
         ]);
     }
-
     public function detailSelectionCriteria($id)
     {
-        $selectioncriteria = SelectionCriteria::with('selection', 'selection.job.selections')->find($id);
+        $selectioncriteria = SelectionCriteria::with('selection', 'selection.job.selections', 'criteriaCrisps')->find($id);
         $jobs = Job::with('selections')->get();
         return Inertia::render('Criterias/DetailCriteria', [
             'criteria' => $selectioncriteria,
@@ -41,10 +40,17 @@ class SelectionCriteriasController extends Controller
         $selectioncriteria->name = $request->name;
         $selectioncriteria->type = $request->type;
         $selectioncriteria->weight = $request->weight;
-        $selectioncriteria->description = $request->description;
+        // $selectioncriteria->description = $request->description;
         $selectioncriteria->selection_id = $request->selection_id;
-
         $selectioncriteria->save();
+
+        foreach ($request->crisp as $key => $value) {
+            $crisp = new CriteriaCrisp();
+            $crisp->title = $value->title;
+            $crisp->weight = $value->weight;
+            $crisp->selection_criteria_id =  $selectioncriteria->id;
+            $crisp->save();
+        }
 
         return redirect()->route('selections.detail', ['id' => $request->selection_id]);
     }
@@ -56,7 +62,7 @@ class SelectionCriteriasController extends Controller
         $selectioncriteria->name = $request->name;
         $selectioncriteria->type = $request->type;
         $selectioncriteria->weight = $request->weight;
-        $selectioncriteria->description = $request->description;
+        // $selectioncriteria->description = $request->description;
         $selectioncriteria->selection_id = $request->selection_id;
 
         $selectioncriteria->save();
@@ -66,6 +72,7 @@ class SelectionCriteriasController extends Controller
 
     public function normalization(Request $request, $id)
     {
+        
         $data = $request->validate([
             'weight_normalization' => 'required',
         ]);
@@ -82,5 +89,32 @@ class SelectionCriteriasController extends Controller
     {
         $selectioncriteria = SelectionCriteria::find($id);
         $selectioncriteria->delete();
+    }
+
+    public function saveCrisp(Request $request)
+    {
+        $crisp = new CriteriaCrisp();
+        $crisp->title = $request->title;
+        $crisp->weight = $request->weight;
+        $crisp->selection_criteria_id = $request->selection_criteria_id;
+        $crisp->created_at  = now();
+        $crisp->save();
+    }
+
+    public function updateCrisp(Request $request, $id)
+    {
+        $crisp = CriteriaCrisp::find($id);
+        $crisp->title = $request->title;
+        $crisp->weight = $request->weight;
+        $crisp->selection_criteria_id = $request->selection_criteria_id;
+        $crisp->created_at  = now();
+        $crisp->save();
+    }
+
+    public function deleteCrisp($id)
+    {
+        $crisp = CriteriaCrisp::find($id);
+       
+        $crisp->delete();
     }
 }

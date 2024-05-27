@@ -14,9 +14,8 @@ class ImportParticipants implements ToModel
     */
     public function model(array $row)
     {
-
-        if($row[0] != "ID") {
-
+        $data = Participant::where('nim','=',$row[1])->first();
+        if($row[0] != "ID" && $row[0] != null && $data == null) {
             return new Participant([
                 //
                 'second_id' => $row[0],
@@ -49,7 +48,9 @@ class ImportParticipants implements ToModel
             ]);
                 
         }
-        // dd($row);
+
+      
+
     }
 }
 

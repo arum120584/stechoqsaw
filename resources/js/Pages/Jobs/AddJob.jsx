@@ -5,9 +5,9 @@ import { useState } from "react";
 export default function AddJob({ auth }) {
     const data = usePage().props;
     const [jobName, setJobName] = useState("");
-    const [description, setDescription] = useState("");
+
     const [jobType, setJobType] = useState("");
-    const [photoJob, setPhotoJob] = useState({});
+
     const [division, setDivision] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [status, setStatus] = useState("");
@@ -19,9 +19,9 @@ export default function AddJob({ auth }) {
             method: "post",
             data: {
                 job_name: jobName,
-                description: description,
+
                 type: jobType,
-                image: photoJob,
+
                 division: division,
                 due_date: dueDate,
                 status: status,
@@ -54,29 +54,58 @@ export default function AddJob({ auth }) {
                                     <label className="text-sm">
                                         Nama Pekerjaan
                                     </label>
-                                    <input
-                                        required
-                                        className="rounded-lg border border-gray-300"
-                                        type="text"
-                                        value={jobName}
+                                    <select
                                         onChange={(e) =>
                                             setJobName(e.target.value)
                                         }
-                                        placeholder="Contoh: Frontend Developer"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">Deskripsi</label>
-                                    <textarea
-                                        required
-                                        value={description}
-                                        onChange={(e) =>
-                                            setDescription(e.target.value)
-                                        }
+                                        defaultValue={0}
                                         className="rounded-lg border border-gray-300"
-                                        placeholder="Tuliskan deskripsi mengenai pekerjaan ini"
-                                    ></textarea>
+                                    >
+                                        <option disabled value={0}>
+                                            Pilih pekerjaan
+                                        </option>
+                                        <option value={"Hardware Enginerring"}>
+                                            Hardware Enginerring
+                                        </option>
+                                        <option value={"Education Enginerring"}>
+                                            Education Enginerring
+                                        </option>
+                                        <option value={"Software Enginerring"}>
+                                            Software Enginerring
+                                        </option>
+                                        <option value={"Lean Manufacture"}>
+                                            Lean Manufacture
+                                        </option>
+                                        <option
+                                            value={
+                                                "Creative Video & Content Creation"
+                                            }
+                                        >
+                                            Creative Video & Content Creation
+                                        </option>
+                                        <option
+                                            value={"Mechanical Enginerring"}
+                                        >
+                                            Mechanical Enginerring
+                                        </option>
+                                        <option value={"3D Designer"}>
+                                            3D Designer
+                                        </option>
+                                        <option
+                                            value={
+                                                "Startup Business Development"
+                                            }
+                                        >
+                                            Startup Business Development
+                                        </option>
+                                        <option
+                                            value={"Electrical Enginerring"}
+                                        >
+                                            Electrical Enginerring
+                                        </option>
+                                    </select>
                                 </div>
+
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm">
                                         Tipe Pekerjaan
@@ -105,19 +134,7 @@ export default function AddJob({ auth }) {
                                         </option>
                                     </select>
                                 </div>
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Foto/Poster Lowongan
-                                    </label>
-                                    <input
-                                        onChange={(e) =>
-                                            setPhotoJob(e.target.files[0])
-                                        }
-                                        className="rounded-lg border border-gray-300"
-                                        type="file"
-                                        value={photoJob.File}
-                                    />
-                                </div>
+
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm">
                                         Divisi Terkait
@@ -140,6 +157,12 @@ export default function AddJob({ auth }) {
                                         </option>
                                         <option value={"PROGRAMMER"}>
                                             PROGRAMMER
+                                        </option>
+                                        <option value={"EDUCATION"}>
+                                            EDUCATION
+                                        </option>
+                                        <option value={"KREATOR"}>
+                                            CONTENT CREATOR
                                         </option>
                                     </select>
                                 </div>
@@ -170,7 +193,6 @@ export default function AddJob({ auth }) {
                                         </option>
                                         <option value={"BUKA"}>BUKA</option>
                                         <option value={"TUTUP"}>TUTUP</option>
-                                        <option value={"DRAFT"}>DRAFT</option>
                                     </select>
                                 </div>
                             </div>

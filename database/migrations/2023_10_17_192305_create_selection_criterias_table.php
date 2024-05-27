@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type', 20);
             $table->integer('weight');
 
-            $table->longText('description')->nullable();
+            // $table->longText('description')->nullable();
             $table->float('weight_normalization')->nullable();
             
             $table->unsignedBigInteger('selection_id');

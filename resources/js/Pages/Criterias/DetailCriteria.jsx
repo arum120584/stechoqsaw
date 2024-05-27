@@ -1,3 +1,5 @@
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, router, Link } from "@inertiajs/react";
 import { useState } from "react";
@@ -10,6 +12,11 @@ export default function AddSelection({ auth }) {
     const [weight, setWeight] = useState(data.criteria.weight);
     const [description, setDescription] = useState(data.criteria.description);
     const [selectionId, setSelectionId] = useState(data.criteria.selection_id);
+    const [modalCrisp, setModalCrisp] = useState(false);
+    const [detailCrisp, setDetailCrisp] = useState(null);
+
+    const [title, setTitle] = useState("");
+    const [weightCrisp, setWeightCrisp] = useState(0);
 
     const updateCriteria = (e) => {
         e.preventDefault();
@@ -22,6 +29,45 @@ export default function AddSelection({ auth }) {
                 description: description,
                 selection_id: selectionId,
             },
+        });
+    };
+
+    const saveCrisp = (e) => {
+        e.preventDefault();
+        router.visit(route("selectioncriteria.savecrisp"), {
+            method: "post",
+            data: {
+                title: title,
+                weight: weightCrisp,
+                selection_criteria_id: data.criteria.id,
+            },
+        });
+    };
+
+    const updateCrisp = (e) => {
+        e.preventDefault();
+        router.visit(route("selectioncriteria.updatecrisp", detailCrisp.id), {
+            method: "put",
+            data: {
+                title: title,
+                weight: weightCrisp,
+                selection_criteria_id: data.criteria.id,
+            },
+        });
+    };
+
+    const submit = (e) => {
+        if (detailCrisp === null) {
+            saveCrisp(e);
+        } else {
+            updateCrisp(e);
+        }
+    };
+
+    const deleteCrisp = (e, id) => {
+        e.preventDefault();
+        router.visit(route("selectioncriteria.deletecrisp", id), {
+            method: "delete",
         });
     };
 
@@ -38,142 +84,281 @@ export default function AddSelection({ auth }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
-                        <div className="p-6 w-full">
-                            <p className="text-xl font-bold mb-3">
-                                Detail {data.criteria.name}
-                            </p>
-                            <hr />
-                            <div className="w-1/2 mt-3">
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Nama Kriteria
-                                    </label>
-                                    <input
-                                        className="rounded-lg border border-gray-300"
-                                        type="text"
-                                        placeholder="Contoh: Pemberkasan"
-                                        value={name}
-                                        onChange={(e) =>
-                                            setName(e.target.value)
-                                        }
-                                    />
+                    <div className="grid grid-cols-12 gap-3">
+                        <div className="col-span-8 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
+                            <div className="p-6 w-full">
+                                <p className="text-xl font-bold mb-3">
+                                    Detail {data.criteria.name}
+                                </p>
+                                <hr />
+                                <div className="w-1/2 mt-3">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-sm">
+                                            Nama Kriteria
+                                        </label>
+                                        <input
+                                            className="rounded-lg border border-gray-300"
+                                            type="text"
+                                            placeholder="Contoh: Pemberkasan"
+                                            value={name}
+                                            onChange={(e) =>
+                                                setName(e.target.value)
+                                            }
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="w-1/2 mt-3">
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">Tipe</label>
-                                    <select
-                                        onChange={(e) =>
-                                            setType(e.target.value)
-                                        }
-                                        value={type}
-                                        className="rounded-lg border border-gray-300"
+                                <div className="w-1/2 mt-3">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-sm">Tipe</label>
+                                        <select
+                                            onChange={(e) =>
+                                                setType(e.target.value)
+                                            }
+                                            value={type}
+                                            className="rounded-lg border border-gray-300"
+                                        >
+                                            <option disabled value={0}>
+                                                Pilih tipe
+                                            </option>
+                                            <option value={"COST"}>COST</option>
+                                            <option value={"BENEFIT"}>
+                                                BENEFIT
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="w-1/2 mt-3">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-sm">Bobot</label>
+                                        <select
+                                            onChange={(e) =>
+                                                setWeight(e.target.value)
+                                            }
+                                            value={weight}
+                                            className="rounded-lg border border-gray-300"
+                                        >
+                                            <option disabled value={0}>
+                                                Pilih bobot
+                                            </option>
+                                            <option value={5}>
+                                                SANGAT PENTING (5)
+                                            </option>
+                                            <option value={4}>
+                                                CUKUP PENTING (4)
+                                            </option>
+                                            <option value={3}>
+                                                PENTING (3)
+                                            </option>
+                                            <option value={2}>
+                                                TIDAK PENTING (2)
+                                            </option>
+                                            <option value={1}>
+                                                SANGAT TIDAK PENTING (1)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                {/* <div className="w-1/2 mt-3">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-sm">
+                                            Deskripsi
+                                        </label>
+                                        <textarea
+                                            value={description}
+                                            onChange={(e) =>
+                                                setDescription(e.target.value)
+                                            }
+                                            className="rounded-lg border border-gray-300"
+                                            placeholder="Tuliskan deskripsi mengenai kriteria ini"
+                                        ></textarea>
+                                    </div>
+                                </div> */}
+                                <div className="w-1/2 mt-3">
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-sm">
+                                            Tahapan Seleksi
+                                        </label>
+                                        <select
+                                            onChange={(e) =>
+                                                setSelectionId(e.target.value)
+                                            }
+                                            value={selectionId}
+                                            className="rounded-lg border border-gray-300"
+                                        >
+                                            <option disabled value={0}>
+                                                Pilih Seleksi
+                                            </option>
+                                            {data.criteria.selection.job
+                                                .selections.length > 0 &&
+                                                data.criteria.selection.job.selections.map(
+                                                    (selection) => {
+                                                        return (
+                                                            <option
+                                                                key={
+                                                                    selection.id
+                                                                }
+                                                                value={
+                                                                    selection.id
+                                                                }
+                                                            >
+                                                                {selection.name}
+                                                            </option>
+                                                        );
+                                                    }
+                                                )}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row mt-5 gap-2">
+                                    <button
+                                        onClick={() => window.history.back()}
+                                        className="bg-slate-300 px-4 py-1 rounded-lg"
                                     >
-                                        <option disabled value={0}>
-                                            Pilih tipe
-                                        </option>
-                                        <option value={"COST"}>COST</option>
-                                        <option value={"BENEFIT"}>
-                                            BENEFIT
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="w-1/2 mt-3">
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">Bobot</label>
-                                    <select
-                                        onChange={(e) =>
-                                            setWeight(e.target.value)
-                                        }
-                                        value={weight}
-                                        className="rounded-lg border border-gray-300"
+                                        <p className="text-sm">Batal</p>
+                                    </button>
+                                    <button
+                                        onClick={(e) => updateCriteria(e)}
+                                        className="bg-blue-900 px-4 py-1 rounded-lg"
                                     >
-                                        <option disabled value={0}>
-                                            Pilih bobot
-                                        </option>
-                                        <option value={5}>
-                                            SANGAT PENTING (5)
-                                        </option>
-                                        <option value={4}>
-                                            CUKUP PENTING (4)
-                                        </option>
-                                        <option value={3}>PENTING (3)</option>
-                                        <option value={2}>
-                                            TIDAK PENTING (2)
-                                        </option>
-                                        <option value={1}>
-                                            SANGAT TIDAK PENTING (1)
-                                        </option>
-                                    </select>
+                                        <p className="text-white text-sm">
+                                            Simpan Perubahan
+                                        </p>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="w-1/2 mt-3">
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">Deskripsi</label>
-                                    <textarea
-                                        value={description}
-                                        onChange={(e) =>
-                                            setDescription(e.target.value)
-                                        }
-                                        className="rounded-lg border border-gray-300"
-                                        placeholder="Tuliskan deskripsi mengenai kriteria ini"
-                                    ></textarea>
-                                </div>
-                            </div>
-                            <div className="w-1/2 mt-3">
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Tahapan Seleksi
-                                    </label>
-                                    <select
-                                        onChange={(e) =>
-                                            setSelectionId(e.target.value)
-                                        }
-                                        value={selectionId}
-                                        className="rounded-lg border border-gray-300"
-                                    >
-                                        <option disabled value={0}>
-                                            Pilih Seleksi
-                                        </option>
-                                        {data.criteria.selection.job.selections
-                                            .length > 0 &&
-                                            data.criteria.selection.job.selections.map(
-                                                (selection) => {
-                                                    return (
-                                                        <option
-                                                            key={selection.id}
-                                                            value={selection.id}
-                                                        >
-                                                            {selection.name}
-                                                        </option>
-                                                    );
-                                                }
-                                            )}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="flex flex-row mt-5 gap-2">
-                                <button
-                                    onClick={() => window.history.back()}
-                                    className="bg-slate-300 px-4 py-1 rounded-lg"
-                                >
-                                    <p className="text-sm">Batal</p>
-                                </button>
-                                <button
-                                    onClick={(e) => updateCriteria(e)}
-                                    className="bg-blue-900 px-4 py-1 rounded-lg"
-                                >
-                                    <p className="text-white text-sm">
-                                        Simpan Perubahan
+                        </div>
+                        <div className="col-span-4 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
+                            <div className="p-6 w-full">
+                                <div className="flex flex-row justify-between items-center mb-3">
+                                    <p className="text-xl font-bold">
+                                        Sub Kriteria
                                     </p>
-                                </button>
+                                    <PrimaryButton
+                                        onClick={() => setModalCrisp(true)}
+                                    >
+                                        Tambah
+                                    </PrimaryButton>
+                                </div>
+                                <hr />
+                                {data.criteria.criteria_crisps.length > 0
+                                    ? data.criteria.criteria_crisps.map(
+                                          (crisp, idx) => {
+                                              return (
+                                                  <div
+                                                      key={idx}
+                                                      className="mt-3 border border-1 rounded-md p-4"
+                                                  >
+                                                      <div className="flex flex-row justify-between items-center ">
+                                                          <p className="text-md">
+                                                              {crisp.title} (
+                                                              {crisp.weight})
+                                                          </p>
+                                                          <div className="flex flex-row items-center gap-0">
+                                                              <i
+                                                                  className="bx bx-fw bx-edit text-yellow-500"
+                                                                  onClick={() => {
+                                                                      setDetailCrisp(
+                                                                          crisp
+                                                                      );
+                                                                      setTitle(
+                                                                          crisp.title
+                                                                      );
+                                                                      setWeightCrisp(
+                                                                          crisp.weight
+                                                                      );
+                                                                      setModalCrisp(
+                                                                          true
+                                                                      );
+                                                                  }}
+                                                              ></i>
+                                                              <i
+                                                                  className="bx bx-fw bx-trash text-rose-500"
+                                                                  onClick={(
+                                                                      e
+                                                                  ) =>
+                                                                      deleteCrisp(
+                                                                          e,
+                                                                          crisp.id
+                                                                      )
+                                                                  }
+                                                              ></i>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              );
+                                          }
+                                      )
+                                    : "Tidak ada crisps"}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Modal
+                show={modalCrisp}
+                maxWidth="md"
+                onClose={() => setModalCrisp(false)}
+            >
+                <div className="p-5">
+                    <div className="flex flex-row justify-between items-center">
+                        <p className="text-lg font-bold">
+                            Tambah Sub Kriteria Baru
+                        </p>
+                        <i
+                            className="bx bx-fw bx-x"
+                            onClick={() => setModalCrisp(false)}
+                        ></i>
+                    </div>
+                    <hr className="my-3" />
+                    <div className="flex flex-col gap-3">
+                        <div className=" mt-3">
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm">Judul</label>
+                                <input
+                                    className="rounded-lg border border-gray-300"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    type="text"
+                                    placeholder="Contoh: Sangat lengkap"
+                                />
+                            </div>
+                        </div>
+                        <div className=" mt-3">
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm">Nilai</label>
+                                <select
+                                    defaultValue={0}
+                                    value={weightCrisp}
+                                    onChange={(e) =>
+                                        setWeightCrisp(e.target.value)
+                                    }
+                                    className="rounded-lg border border-gray-300"
+                                >
+                                    <option disabled value={0}>
+                                        Pilih bobot
+                                    </option>
+                                    <option value={5}>5</option>
+                                    <option value={4}>4</option>
+                                    <option value={3}>3</option>
+                                    <option value={2}>2</option>
+                                    <option value={1}>1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="flex flex-row items-center gap-3">
+                            <PrimaryButton
+                                onClick={() => setModalCrisp(false)}
+                                className=" bg-slate-500 hover:bg-slate-400"
+                            >
+                                Batal
+                            </PrimaryButton>
+                            <PrimaryButton onClick={(e) => submit(e)}>
+                                Simpan
+                            </PrimaryButton>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </AuthenticatedLayout>
     );
 }

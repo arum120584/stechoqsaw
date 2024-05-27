@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type', 20);
-            $table->integer('weight');
+            // $table->integer('weight');
 
-            $table->longText('description')->nullable();
+            // $table->string('description')->nullable();
             $table->float('weight_normalization')->nullable();
             
             $table->unsignedBigInteger('job_id')->nullable();

@@ -40,6 +40,16 @@ export default function DetailSelection({ auth }) {
         setExcel({});
     };
 
+    const downloadResult = (e, idselection) => {
+        e.preventDefault();
+        router.visit(`/selection/export`, {
+            method: "get",
+            data: {
+                selectionid: idselection,
+            },
+        });
+    };
+
     const firstPage = (e) => {
         e.preventDefault();
         router.visit(`${data.participants.first_page_url}`, {
@@ -134,7 +144,7 @@ export default function DetailSelection({ auth }) {
     const formAddCriteria = (e) => {
         e.preventDefault();
         router.visit(`/selectioncriteria/form/add`, {
-            method: "post",
+            method: "get",
             data: {
                 selection_id: data.selection.id,
             },
@@ -281,14 +291,31 @@ export default function DetailSelection({ auth }) {
                                 )}
                         </div>
                         {tab === "seleksi" && (
-                            <button
-                                onClick={(e) =>
-                                    nextSelection(e, data.selection.id)
-                                }
-                                className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
-                            >
-                                <p className="text-sm">Lanjut Seleksi</p>
-                            </button>
+                            <div className="flex flex-row items-center gap-3">
+                                <button
+                                    onClick={
+                                        (e) =>
+                                            window.open(
+                                                window.location.origin +
+                                                    `/selection/export/?selectionid=${data.selection.id}`,
+                                                "_blank"
+                                            )
+                                        // downloadResult(e, data.selection.id)
+                                    }
+                                    className="bg-blue-900 text-white px-2 py-1 rounded-lg"
+                                >
+                                    <p className="text-sm">Download Hasil</p>
+                                </button>
+
+                                <button
+                                    onClick={(e) =>
+                                        nextSelection(e, data.selection.id)
+                                    }
+                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                >
+                                    <p className="text-sm">Lanjut Seleksi</p>
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -439,7 +466,7 @@ export default function DetailSelection({ auth }) {
                                 />
                             </div>
                             <div className="flex items-center gap-2">
-                                <button
+                                {/* <button
                                     onClick={() =>
                                         window.open(
                                             window.location.origin +
@@ -450,7 +477,7 @@ export default function DetailSelection({ auth }) {
                                     className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
                                 >
                                     <p className="text-sm">Download Kandidat</p>
-                                </button>
+                                </button> */}
                                 {cek.length ===
                                     data.participants.data.length && (
                                     <button

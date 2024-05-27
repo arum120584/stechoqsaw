@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Models\ParticipantCriteria;
+use Illuminate\Support\Facades\Route;
 
 class SawsController extends Controller
 {
@@ -15,6 +16,7 @@ class SawsController extends Controller
         
         $minMaxWeights = [];
 
+        // ini untuk mencari nilai pembagi dari tiap alternatif
         foreach ($data as $participant) {
             foreach ($participant->participant_criteria as $participantcriteria) {
                 $selectionId = $participantcriteria->selection_criteria_id;
@@ -38,6 +40,7 @@ class SawsController extends Controller
             }
         }
 
+        // tahap ketiga saw cari normalisasi
         // Setelah mendapatkan nilai minimum dan maksimum, ubah data weight_normalization
         foreach ($data as $participant) {
             foreach ($participant->participant_criteria as $participantcriteria) {
@@ -57,6 +60,7 @@ class SawsController extends Controller
                 $updateweightnormalization->save();
             }
 
+             // Tahap untuk mencari nilai preferensi
             $score = 0;
         
             foreach ($participant->participant_criteria as $participantcriteria) {

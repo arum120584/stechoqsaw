@@ -81,12 +81,7 @@ export default function DetailJob({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 gap-3 grid grid-cols-3">
                     <div className="col-span-1 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                         <div className="p-6 w-full">
-                            {data.job.image !== null && (
-                                <img
-                                    src={`/storage/uploads/jobs/${data.job.image}`}
-                                    alt=""
-                                />
-                            )}
+                            <img src={`/msib.jpeg`} alt="" />
                         </div>
                     </div>
                     <div className="col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
@@ -100,12 +95,7 @@ export default function DetailJob({ auth }) {
                                 </span>
                             </div>
                             <hr />
-                            <div className="flex flex-col gap-1 mt-3 mb-3">
-                                <p className="text-sm text-slate-400">
-                                    Deskripsi Pekerjaan
-                                </p>
-                                <p>{data.job.description}</p>
-                            </div>
+
                             <hr />
                             <div className="flex flex-col gap-1 mt-3 mb-3">
                                 <p className="text-sm text-slate-400">

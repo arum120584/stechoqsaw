@@ -87,13 +87,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/selectioncriterias', [SelectionCriteriasController::class, 'getSelectionCriterias'])->name('selectioncriterias.all');
     Route::get('/selectioncriteria/detail/{id}', [SelectionCriteriasController::class, 'detailSelectionCriteria'])->name('selectioncriterias.detail');
-    Route::post('/selectioncriteria/form/add', [SelectionCriteriasController::class, 'formAddCriteria'])->name('selectioncriterias.formadd');
+    Route::get('/selectioncriteria/form/add', [SelectionCriteriasController::class, 'formAddCriteria'])->name('selectioncriterias.formadd');
     Route::post('/selectioncriteria/add', [SelectionCriteriasController::class, 'createSelectionCriteria'])->name('selectioncriterias.add');
     Route::put('/selectioncriteria/update/{id}', [SelectionCriteriasController::class, 'updateSelectionCriteria'])->name('selectioncriterias.update');
     Route::delete('/selectioncriteria/delete/{id}', [SelectionCriteriasController::class, 'deleteSelectionCriteria'])->name('selectioncriterias.delete');
     Route::put('/selectioncriteria/normalization/{id}', [SelectionCriteriasController::class, 'normalization'])->name('selectioncriteria.normalization');
-
-
+    Route::post('/selectioncriteria/add-crisp', [SelectionCriteriasController::class, 'saveCrisp'])->name('selectioncriteria.savecrisp');
+    Route::delete('/selectioncriteria/delete-crisp/{id}', [SelectionCriteriasController::class, 'deleteCrisp'])->name('selectioncriteria.deletecrisp');
+    Route::put('/selectioncriteria/update-crisp/{id}', [SelectionCriteriasController::class, 'updateCrisp'])->name('selectioncriteria.updatecrisp');
 
 
 
@@ -120,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/participant/export', [ImportExportsController::class, 'exportParticipants'])->name('importexport.exportparticipants');
 
     Route::get('/startsaw/{selectionid}', [SawsController::class, 'startSaw'])->name('saw.startsaw');
+    Route::get('/selection/export', [ImportExportsController::class, 'exportSelectionParticipants'])->name('importexport.exportselection');
 });
 
 require __DIR__.'/auth.php';

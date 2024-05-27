@@ -70,9 +70,6 @@ export default function Jobs({ auth }) {
                                             Tipe
                                         </th>
                                         <th className="py-3 px-4 text-sm">
-                                            Gambar
-                                        </th>
-                                        <th className="py-3 px-4 text-sm">
                                             Batas Pendaftaran
                                         </th>
                                         <th className="py-3 px-4 text-sm">
@@ -96,23 +93,7 @@ export default function Jobs({ auth }) {
                                                 <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                     {job.type}
                                                 </td>
-                                                <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
-                                                    {job.image !== null ? (
-                                                        <img
-                                                            className="rounded-lg"
-                                                            width={"50px"}
-                                                            src={`/storage/uploads/jobs/${job.image}`}
-                                                            alt=""
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            className="rounded-lg"
-                                                            width={"50px"}
-                                                            src={`https://placehold.co/600x700?text=GAMBAR`}
-                                                            alt=""
-                                                        />
-                                                    )}
-                                                </td>
+
                                                 <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                     {job.due_date}
                                                 </td>

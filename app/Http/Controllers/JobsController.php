@@ -41,39 +41,20 @@ class JobsController extends Controller
 
     public function createJob(Request $request)
     {
-        $data = $request->validate([
-            'job_name' => 'required|string',
-            'description' => 'required|string',
-        ]);
+        // return $request;
+        // $data = $request->validate([
+        //     'job_name' => 'required|string',
+        //     'description' => 'required|string',
+        // ]);
 
         $job = new Job();
 
-        $job->job_name = $data['job_name'];
-        $job->description = $data['description'];
+        $job->job_name = $request->job_name;
         $job->type = $request->type;
-
-        if (!isset($request->image)) {
-            Storage::delete('public/uploads/jobs/' . $job->image);
-            $job->image = NULL;
-        } else {
-
-            if ($request->hasFile('image')) {
-
-                if (isset($job->image)) {
-                    Storage::delete('public/uploads/jobs/' . $job->image);
-                }
-
-                $image = $request->file('image');
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->storeAs('public/uploads/jobs', $imageName);
-                $job->image = $imageName;
-            }
-        }
-
         $job->division = $request->division;
         $job->due_date = $request->due_date;
         $job->status = $request->status;
-
+        // return $job;
         $job->save();
 
         return redirect()->route('jobs.getjobs');

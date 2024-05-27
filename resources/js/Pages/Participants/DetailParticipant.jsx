@@ -190,10 +190,8 @@ export default function DetailParticipant({ auth }) {
             },
             preserveState: true,
             onSuccess: () => {
-                return Promise.all([
-                    toast.success("Peserta berhasil dinilaiz!")
-                ])
-            }
+                toast.success("Peserta berhasil dinilai!");
+            },
         });
         // return to_route("selections.detail", 2);
     };
@@ -214,9 +212,9 @@ export default function DetailParticipant({ auth }) {
             preserveState: true,
             onSuccess: () => {
                 return Promise.all([
-                    toast.success("Peserta berhasil diupdate!")
-                ])
-            }
+                    toast.success("Peserta berhasil diupdate!"),
+                ]);
+            },
         });
         // console.log(criteriaId);
         // console.log(data.participant);
@@ -767,51 +765,52 @@ export default function DetailParticipant({ auth }) {
                                                             <label className="text-sm">
                                                                 Bobot
                                                             </label>
-                                                            
-                                                            
+
                                                             <select
-                                                                    value={
-                                                                        valueWeight[
-                                                                            idx
-                                                                        ]
-                                                                    }
-                                                                    onChange={(
-                                                                        e
-                                                                    ) => {
-                                                                        handleValueWeight(
-                                                                            idx,
-                                                                            e
-                                                                                .target
-                                                                                .value,
-                                                                            criteria.id
-                                                                        );
-                                                                    }}
-                                                                    className="rounded-lg border border-gray-300"
+                                                                value={
+                                                                    valueWeight[
+                                                                        idx
+                                                                    ]
+                                                                }
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    handleValueWeight(
+                                                                        idx,
+                                                                        e.target
+                                                                            .value,
+                                                                        criteria.id
+                                                                    );
+                                                                }}
+                                                                className="rounded-lg border border-gray-300"
+                                                            >
+                                                                <option
+                                                                    disabled
+                                                                    value={0}
                                                                 >
-                                                                    
-                                                                    <option
-                                                                        disabled
-                                                                        value={
-                                                                            0
-                                                                        }
-                                                                    >
-                                                                        Pilih
-                                                                        bobot
-                                                                    </option>
-                                                                    {criteria.selection_criteria.criteria_crisps.map((crisps) => {
+                                                                    Pilih bobot
+                                                                </option>
+                                                                {criteria.selection_criteria.criteria_crisps.map(
+                                                                    (
+                                                                        crisps
+                                                                    ) => {
                                                                         return (
                                                                             <option
-                                                                                key={crisps.id}
+                                                                                key={
+                                                                                    crisps.id
+                                                                                }
                                                                                 value={
                                                                                     crisps.weight
                                                                                 }
                                                                             >
-                                                                                {crisps.title}
+                                                                                {
+                                                                                    crisps.title
+                                                                                }
                                                                             </option>
-                                                                        )
-                                                                    })}
-                                                                    
-                                                                </select>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                            </select>
                                                         </div>
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
@@ -911,48 +910,52 @@ export default function DetailParticipant({ auth }) {
                                                             <label className="text-sm">
                                                                 Bobot
                                                             </label>
-                                                            
+
                                                             <select
-                                                                    onChange={(
-                                                                        e
-                                                                    ) => {
-                                                                        handleWeight(
-                                                                            idx,
-                                                                            e
-                                                                                .target
-                                                                                .value
-                                                                        );
-                                                                    }}
-                                                                    value={
-                                                                        weight[
-                                                                            idx
-                                                                        ] || 0
-                                                                    }
-                                                                    className="rounded-lg border border-gray-300"
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    handleWeight(
+                                                                        idx,
+                                                                        e.target
+                                                                            .value
+                                                                    );
+                                                                }}
+                                                                value={
+                                                                    weight[
+                                                                        idx
+                                                                    ] || 0
+                                                                }
+                                                                className="rounded-lg border border-gray-300"
+                                                            >
+                                                                <option
+                                                                    disabled
+                                                                    value={0}
                                                                 >
-                                                                    <option
-                                                                        disabled
-                                                                        value={
-                                                                            0
-                                                                        }
-                                                                    >
-                                                                        Pilih
-                                                                        bobot
-                                                                    </option>
-                                                                    
-                                                                    {criteria.criteria_crisps.map((crisps) => {
-                                                                        return(
+                                                                    Pilih bobot
+                                                                </option>
+
+                                                                {criteria.criteria_crisps.map(
+                                                                    (
+                                                                        crisps
+                                                                    ) => {
+                                                                        return (
                                                                             <option
-                                                                        key={crisps.id}
-                                                                        value={
-                                                                            crisps.weight
-                                                                        }
-                                                                    >
-                                                                        {crisps.title}
-                                                                    </option>
-                                                                        )
-                                                                    })}
-                                                                </select>
+                                                                                key={
+                                                                                    crisps.id
+                                                                                }
+                                                                                value={
+                                                                                    crisps.weight
+                                                                                }
+                                                                            >
+                                                                                {
+                                                                                    crisps.title
+                                                                                }
+                                                                            </option>
+                                                                        );
+                                                                    }
+                                                                )}
+                                                            </select>
                                                         </div>
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
