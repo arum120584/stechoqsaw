@@ -47,7 +47,10 @@ export default function Jobs({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className=" bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                         <div className="p-6 w-full">
-                            <div className="flex flex-row justify-end mb-5">
+                            <div className="flex flex-row justify-between mb-5">
+                                <p className="font-bold">
+                                    Jumlah Pekerjaan: {data.jobs.length}
+                                </p>
                                 <button
                                     className="bg-blue-900 px-4 py-1 rounded-lg"
                                     onClick={(e) => formAddJob(e)}

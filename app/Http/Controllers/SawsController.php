@@ -17,6 +17,9 @@ class SawsController extends Controller
         $minMaxWeights = [];
 
         // ini untuk mencari nilai pembagi dari tiap alternatif
+        // foreach itu untuk perulangan data dari data participant 
+
+
         foreach ($data as $participant) {
             foreach ($participant->participant_criteria as $participantcriteria) {
                 $selectionId = $participantcriteria->selection_criteria_id;
@@ -39,10 +42,11 @@ class SawsController extends Controller
                 }
             }
         }
-
-        // tahap ketiga saw cari normalisasi
+        // tahap ketiga algoritma saw 
         // Setelah mendapatkan nilai minimum dan maksimum, ubah data weight_normalization
         foreach ($data as $participant) {
+            
+            //mencari nilai normalisasi
             foreach ($participant->participant_criteria as $participantcriteria) {
                 $selectionId = $participantcriteria->selection_criteria_id;
                 $type = $participantcriteria->selection_criteria->type;
@@ -54,7 +58,7 @@ class SawsController extends Controller
                     $weightNormalization = $minMaxWeights[$selectionId]['min_weight'] / $participantcriteria->weight;
                 }
 
-                // Simpan nilai weight_normalization ke dalam objek participant_criteria
+                // menyimpan nilai normalisasi ke database
                 $updateweightnormalization = ParticipantCriteria::find($participantcriteria->id);
                 $updateweightnormalization->weight_normalization = $weightNormalization;
                 $updateweightnormalization->save();
@@ -76,7 +80,7 @@ class SawsController extends Controller
 
             }
         
-            // Simpan hasil skor ke dalam kolom "score" pada model Participant
+            // Simpan hasil preferensi ke dalam kolom "score" pada model Participant
             $updatescore = Participant::find($participant->id);
             $updatescore->score = $score;
             $updatescore->save();

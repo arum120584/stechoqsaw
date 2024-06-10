@@ -5,10 +5,7 @@ import { useState } from "react";
 export default function EditJob({ auth }) {
     const data = usePage().props;
     const [jobName, setJobName] = useState(data.job.job_name);
-    const [description, setDescription] = useState(data.job.description);
     const [jobType, setJobType] = useState(data.job.type);
-    const [photoJob, setPhotoJob] = useState({});
-    const [division, setDivision] = useState(data.job.division);
     const [dueDate, setDueDate] = useState(data.job.due_date);
     const [status, setStatus] = useState(data.job.status);
 
@@ -18,10 +15,7 @@ export default function EditJob({ auth }) {
             method: "post",
             data: {
                 job_name: jobName,
-                description: description,
                 type: jobType,
-                image: photoJob,
-                division: division,
                 due_date: dueDate,
                 status: status,
             },
@@ -65,18 +59,6 @@ export default function EditJob({ auth }) {
                                     />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-sm">Deskripsi</label>
-                                    <textarea
-                                        required
-                                        value={description}
-                                        onChange={(e) =>
-                                            setDescription(e.target.value)
-                                        }
-                                        className="rounded-lg border border-gray-300"
-                                        placeholder="Tuliskan deskripsi mengenai pekerjaan ini"
-                                    ></textarea>
-                                </div>
-                                <div className="flex flex-col gap-2">
                                     <label className="text-sm">
                                         Tipe Pekerjaan
                                     </label>
@@ -104,44 +86,7 @@ export default function EditJob({ auth }) {
                                         </option>
                                     </select>
                                 </div>
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Foto/Poster Lowongan
-                                    </label>
-                                    <input
-                                        onChange={(e) =>
-                                            setPhotoJob(e.target.files[0])
-                                        }
-                                        className="rounded-lg border border-gray-300"
-                                        type="file"
-                                        value={photoJob.File}
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Divisi Terkait
-                                    </label>
-                                    <select
-                                        onChange={(e) =>
-                                            setDivision(e.target.value)
-                                        }
-                                        value={division !== null ? division : 0}
-                                        className="rounded-lg border border-gray-300"
-                                    >
-                                        <option disabled value={0}>
-                                            Pilih divisi
-                                        </option>
-                                        <option value={"MARKETING"}>
-                                            MARKETING
-                                        </option>
-                                        <option value={"FINANCE"}>
-                                            FINANCE
-                                        </option>
-                                        <option value={"PROGRAMMER"}>
-                                            PROGRAMMER
-                                        </option>
-                                    </select>
-                                </div>
+
                                 <div className="flex flex-col gap-2">
                                     <label className="text-sm">
                                         Batas Akhir
@@ -169,7 +114,6 @@ export default function EditJob({ auth }) {
                                         </option>
                                         <option value={"BUKA"}>BUKA</option>
                                         <option value={"TUTUP"}>TUTUP</option>
-                                        <option value={"DRAFT"}>DRAFT</option>
                                     </select>
                                 </div>
                             </div>

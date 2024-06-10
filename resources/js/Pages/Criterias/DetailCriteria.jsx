@@ -10,7 +10,7 @@ export default function AddSelection({ auth }) {
     const [name, setName] = useState(data.criteria.name);
     const [type, setType] = useState(data.criteria.type);
     const [weight, setWeight] = useState(data.criteria.weight);
-    const [description, setDescription] = useState(data.criteria.description);
+    // const [description, setDescription] = useState(data.criteria.description);
     const [selectionId, setSelectionId] = useState(data.criteria.selection_id);
     const [modalCrisp, setModalCrisp] = useState(false);
     const [detailCrisp, setDetailCrisp] = useState(null);
@@ -26,7 +26,7 @@ export default function AddSelection({ auth }) {
                 name: name,
                 type: type,
                 weight: weight,
-                description: description,
+                // description: description,
                 selection_id: selectionId,
             },
         });

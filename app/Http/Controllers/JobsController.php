@@ -65,7 +65,7 @@ class JobsController extends Controller
         $job = Job::find($id);
 
         $job->job_name = $request->job_name;
-        $job->description = $request->description;
+        
         $job->type = $request->type;
 
         // if (!isset($request->image)) {
@@ -98,7 +98,7 @@ class JobsController extends Controller
             $job->image = $imageName;
         }
 
-        $job->division = $request->division;
+        // $job->division = $request->division;
         $job->due_date = $request->due_date;
         $job->status = $request->status;
 

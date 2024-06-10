@@ -46,7 +46,7 @@ class SelectionCriteriasController extends Controller
 
         foreach ($request->crisp as $key => $value) {
             $crisp = new CriteriaCrisp();
-            $crisp->title = $value->title;
+            $crisp->title = $value["title"];
             $crisp->weight = $value->weight;
             $crisp->selection_criteria_id =  $selectioncriteria->id;
             $crisp->save();

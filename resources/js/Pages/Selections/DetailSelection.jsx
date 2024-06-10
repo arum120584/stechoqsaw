@@ -121,7 +121,7 @@ export default function DetailSelection({ auth }) {
     let cek = data.participants.data.filter(
         (participant) => participant.participant_criteria.length > 0
     );
-
+    // perangkingan
     let resultRankings =
         data.participants.data.length > 0 &&
         data.participants.data.sort((a, b) => b.score - a.score);

@@ -1,32 +1,27 @@
 export const Data = [
     {
-      id: 1,
-      year: 2016,
-      userGain: 80000,
-      userLost: 823
+        id: 1,
+        batch: 1,
+        participant: 602,
     },
     {
-      id: 2,
-      year: 2017,
-      userGain: 45677,
-      userLost: 345
+        id: 2,
+        batch: 2,
+        participant: 3522,
     },
     {
-      id: 3,
-      year: 2018,
-      userGain: 78888,
-      userLost: 555
+        id: 3,
+        batch: 3,
+        participant: 2972,
     },
     {
-      id: 4,
-      year: 2019,
-      userGain: 90000,
-      userLost: 4555
+        id: 4,
+        batch: 4,
+        participant: 4203,
     },
     {
-      id: 5,
-      year: 2020,
-      userGain: 4300,
-      userLost: 234
-    }
-  ];
+        id: 5,
+        batch: 5,
+        participant: 8437,
+    },
+];

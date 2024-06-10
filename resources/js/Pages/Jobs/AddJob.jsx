@@ -5,10 +5,7 @@ import { useState } from "react";
 export default function AddJob({ auth }) {
     const data = usePage().props;
     const [jobName, setJobName] = useState("");
-
     const [jobType, setJobType] = useState("");
-
-    const [division, setDivision] = useState("");
     const [dueDate, setDueDate] = useState("");
     const [status, setStatus] = useState("");
 
@@ -19,10 +16,7 @@ export default function AddJob({ auth }) {
             method: "post",
             data: {
                 job_name: jobName,
-
                 type: jobType,
-
-                division: division,
                 due_date: dueDate,
                 status: status,
             },
@@ -131,38 +125,6 @@ export default function AddJob({ auth }) {
                                         </option>
                                         <option value={"MAGANG REGULAR"}>
                                             MAGANG (REGULAR)
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm">
-                                        Divisi Terkait
-                                    </label>
-                                    <select
-                                        onChange={(e) =>
-                                            setDivision(e.target.value)
-                                        }
-                                        defaultValue={0}
-                                        className="rounded-lg border border-gray-300"
-                                    >
-                                        <option disabled value={0}>
-                                            Pilih divisi
-                                        </option>
-                                        <option value={"MARKETING"}>
-                                            MARKETING
-                                        </option>
-                                        <option value={"FINANCE"}>
-                                            FINANCE
-                                        </option>
-                                        <option value={"PROGRAMMER"}>
-                                            PROGRAMMER
-                                        </option>
-                                        <option value={"EDUCATION"}>
-                                            EDUCATION
-                                        </option>
-                                        <option value={"KREATOR"}>
-                                            CONTENT CREATOR
                                         </option>
                                     </select>
                                 </div>
