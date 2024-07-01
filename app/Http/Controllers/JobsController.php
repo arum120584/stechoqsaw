@@ -25,7 +25,6 @@ class JobsController extends Controller
             'job' => $job
         ]);
     }
-
     public function formEditJob($id)
     {
         $job = Job::with('selections', 'selections.participants')->find($id);

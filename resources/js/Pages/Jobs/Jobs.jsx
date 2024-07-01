@@ -56,7 +56,7 @@ export default function Jobs({ auth }) {
                                     onClick={(e) => formAddJob(e)}
                                 >
                                     <p className="text-white text-sm">
-                                        Tambah Baru
+                                        Tambah Pekerjaan
                                     </p>
                                 </button>
                             </div>

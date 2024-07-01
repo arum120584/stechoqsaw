@@ -139,7 +139,7 @@ export default function AddCriteria({ auth }) {
                                         </option>
                                         <option value={1}>
                                             {type === "BENEFIT"
-                                                ? "SANGAT TIDAK PENTING"
+                                                ? "TIDAK PENTING"
                                                 : " SANGAT PENTING"}{" "}
                                             (1)
                                         </option>

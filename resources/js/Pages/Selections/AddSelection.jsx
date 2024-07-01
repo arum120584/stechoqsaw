@@ -26,7 +26,7 @@ export default function AddSelection({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Tambah Pengguna
+                    Tambah Tahap Penyeleksian
                 </h2>
             }
         >

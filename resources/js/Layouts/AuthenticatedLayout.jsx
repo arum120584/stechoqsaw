@@ -68,6 +68,14 @@ export default function Authenticated({ user, header, children }) {
                                 >
                                     Kandidat
                                 </NavLink>
+                                <NavLink
+                                    href={route("hasilkeputusansaw.all")}
+                                    active={route().current(
+                                        "hasilkeputusansaw.all"
+                                    )}
+                                >
+                                    Hasil keputusan
+                                </NavLink>
                             </div>
                         </div>
 

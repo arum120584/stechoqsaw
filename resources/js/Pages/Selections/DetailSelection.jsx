@@ -293,18 +293,16 @@ export default function DetailSelection({ auth }) {
                         {tab === "seleksi" && (
                             <div className="flex flex-row items-center gap-3">
                                 <button
-                                    onClick={
-                                        (e) =>
-                                            window.open(
-                                                window.location.origin +
-                                                    `/selection/export/?selectionid=${data.selection.id}`,
-                                                "_blank"
-                                            )
-                                        // downloadResult(e, data.selection.id)
+                                    onClick={(e) =>
+                                        window.open(
+                                            window.location.origin +
+                                                `/selection/export/?selectionid=${data.selection.id}`,
+                                            "_blank"
+                                        )
                                     }
                                     className="bg-blue-900 text-white px-2 py-1 rounded-lg"
                                 >
-                                    <p className="text-sm">Download Hasil</p>
+                                    <p className="text-sm">Unduh Hasil</p>
                                 </button>
 
                                 <button
@@ -313,7 +311,7 @@ export default function DetailSelection({ auth }) {
                                     }
                                     className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
                                 >
-                                    <p className="text-sm">Lanjut Seleksi</p>
+                                    <p className="text-sm">Ambil Keputusan</p>
                                 </button>
                             </div>
                         )}
@@ -387,7 +385,7 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50">
                                                                 <div className="flex items-center gap-2">
-                                                                    <button
+                                                                    {/* <button
                                                                         onClick={(
                                                                             e
                                                                         ) =>
@@ -400,7 +398,7 @@ export default function DetailSelection({ auth }) {
                                                                         className="bg-slate-500 px-2 py-1 rounded-lg"
                                                                     >
                                                                         <i className="bx bx-fw bx-transfer-alt text-white"></i>
-                                                                    </button>
+                                                                    </button> */}
                                                                     <button
                                                                         onClick={(
                                                                             e
@@ -466,18 +464,6 @@ export default function DetailSelection({ auth }) {
                                 />
                             </div>
                             <div className="flex items-center gap-2">
-                                {/* <button
-                                    onClick={() =>
-                                        window.open(
-                                            window.location.origin +
-                                                "/participant/export",
-                                            "_blank"
-                                        )
-                                    }
-                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
-                                >
-                                    <p className="text-sm">Download Kandidat</p>
-                                </button> */}
                                 {cek.length ===
                                     data.participants.data.length && (
                                     <button

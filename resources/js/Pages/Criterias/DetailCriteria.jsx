@@ -144,10 +144,10 @@ export default function AddSelection({ auth }) {
                                                 SANGAT PENTING (5)
                                             </option>
                                             <option value={4}>
-                                                CUKUP PENTING (4)
+                                                PENTING (4)
                                             </option>
                                             <option value={3}>
-                                                PENTING (3)
+                                                CUKUP PENTING (3)
                                             </option>
                                             <option value={2}>
                                                 TIDAK PENTING (2)

@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, router, Link } from "@inertiajs/react";
 import { useState } from "react";
 
+// auth adalah data user yangs sedang login
 export default function Users({ auth }) {
     const data = usePage().props;
 
@@ -26,6 +27,7 @@ export default function Users({ auth }) {
         });
     };
 
+    console.log(auth.user.id);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -90,27 +92,34 @@ export default function Users({ auth }) {
                                                         {user.role}
                                                     </td>
                                                     <td className="py-3 px-4 border-b-2 border-gray-50">
-                                                        <div className="flex items-center gap-2">
-                                                            <i
-                                                                onClick={(e) =>
-                                                                    detailUser(
-                                                                        e,
-                                                                        user.id
-                                                                    )
-                                                                }
-                                                                className="bx bx-fw bx-info-circle text-blue-900"
-                                                            ></i>
+                                                        {auth.user.id !=
+                                                            user.id && (
+                                                            <div className="flex items-center gap-2">
+                                                                <i
+                                                                    onClick={(
+                                                                        e
+                                                                    ) =>
+                                                                        detailUser(
+                                                                            e,
+                                                                            user.id
+                                                                        )
+                                                                    }
+                                                                    className="bx bx-fw bx-info-circle text-blue-900"
+                                                                ></i>
 
-                                                            <i
-                                                                onClick={(e) =>
-                                                                    deleteUser(
-                                                                        e,
-                                                                        user.id
-                                                                    )
-                                                                }
-                                                                className="bx bx-fw bx-trash text-rose-500"
-                                                            ></i>
-                                                        </div>
+                                                                <i
+                                                                    onClick={(
+                                                                        e
+                                                                    ) =>
+                                                                        deleteUser(
+                                                                            e,
+                                                                            user.id
+                                                                        )
+                                                                    }
+                                                                    className="bx bx-fw bx-trash text-rose-500"
+                                                                ></i>
+                                                            </div>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             );

@@ -15,21 +15,21 @@ class SelectionSeeder extends Seeder
     {
         DB::table('selections')->insert(
             [
-                [
-                    'name' => 'Pemberkasan',
-                    'status' => 'BERLANGSUNG',
-                    'job_id' => 1,
-                ],
-                [
-                    'name' => 'Tes Keahlian',
-                    'status' => 'AKAN DATANG',
-                    'job_id' => 1,
-                ],
-                [
-                    'name' => 'Tes Kepribadian',
-                    'status' => 'AKAN DATANG',
-                    'job_id' => 1,
-                ],
+                // [
+                //     'name' => 'Pemberkasan',
+                //     'status' => 'BERLANGSUNG',
+                //     'job_id' => 1,
+                // ],
+                // [
+                //     'name' => 'Tes Keahlian',
+                //     'status' => 'AKAN DATANG',
+                //     'job_id' => 1,
+                // ],
+                // [
+                //     'name' => 'Tes Kepribadian',
+                //     'status' => 'AKAN DATANG',
+                //     'job_id' => 1,
+                // ],
                 [
                     'name' => 'Wawancara',
                     'status' => 'AKAN DATANG',

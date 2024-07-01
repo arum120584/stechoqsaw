@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('weight');
 
             // $table->longText('description')->nullable();
-            $table->float('weight_normalization')->nullable();
+            $table->decimal('weight_normalization', 10,9)->nullable();
             
             $table->unsignedBigInteger('selection_id');
             $table->foreign('selection_id')->references('id')->on('selections')->onDelete("cascade");

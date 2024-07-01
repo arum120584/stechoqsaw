@@ -9,7 +9,7 @@ use App\Http\Controllers\ParticipantsController;
 use App\Http\Controllers\SawsController;
 use App\Http\Controllers\DashboardController;
 
-
+use App\Http\Controllers\HasilKeputusanSawController;
 
 use App\Http\Controllers\JobCriteriasController;
 use App\Http\Controllers\CandidatesController;
@@ -42,12 +42,10 @@ Route::get('/', function () {
 
 Route::get('/home', [HomesController::class, 'index'])->name('home.index');
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-// Route::get('/jobs', [JobsController::class, 'getJobs'])->name('jobs.getjobs');
+
 Route::middleware('auth', 'admin')->group(function () {
 
     Route::get('/users', [UsersController::class, 'getUsers'])->name('user.all');
@@ -122,6 +120,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/startsaw/{selectionid}', [SawsController::class, 'startSaw'])->name('saw.startsaw');
     Route::get('/selection/export', [ImportExportsController::class, 'exportSelectionParticipants'])->name('importexport.exportselection');
+
+    Route::get('/hasilkeputusansaw',[HasilKeputusanSawController::class, 'getHasilKeputusanSaw'])->name('hasilkeputusansaw.all');
 });
 
 require __DIR__.'/auth.php';

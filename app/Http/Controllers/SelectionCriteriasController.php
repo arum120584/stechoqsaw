@@ -40,14 +40,13 @@ class SelectionCriteriasController extends Controller
         $selectioncriteria->name = $request->name;
         $selectioncriteria->type = $request->type;
         $selectioncriteria->weight = $request->weight;
-        // $selectioncriteria->description = $request->description;
         $selectioncriteria->selection_id = $request->selection_id;
         $selectioncriteria->save();
 
         foreach ($request->crisp as $key => $value) {
             $crisp = new CriteriaCrisp();
             $crisp->title = $value["title"];
-            $crisp->weight = $value->weight;
+            $crisp->weight = $value["weight"];
             $crisp->selection_criteria_id =  $selectioncriteria->id;
             $crisp->save();
         }

@@ -5,13 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Participant;
 use App\Models\ParticipantCriteria;
+use App\Models\Selection;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\SelectionCriteria;
 class SawsController extends Controller
 {
     public function startSaw($selectionid)
     {
-        $participants = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->where('selection_id', '=', $selectionid)->get();
+        $selection = Selection::with('selectionCriterias')->find($selectionid);
+        // return dd($selection);
+
+        $totalWeight = 0;
+       foreach ($selection->selectionCriterias as $key => $criteria) {
+            $totalWeight += $criteria->weight;
+       }
+       
+       foreach ($selection->selectionCriterias as $key => $criteria) {
+        
+        $selectioncriteria = SelectionCriteria::find($criteria->id);
+        $selectioncriteria->weight_normalization = $criteria->weight/$totalWeight;
+        $selectioncriteria->save();
+
+       }
+        $participants = Participant::with('participantCriteria', 
+        'participantCriteria.selectionCriteria', 'selection.selectionCriterias')->where('selection_id', '=', $selectionid)->get();
         $data = json_decode($participants);
         
         $minMaxWeights = [];
@@ -45,7 +62,7 @@ class SawsController extends Controller
         // tahap ketiga algoritma saw 
         // Setelah mendapatkan nilai minimum dan maksimum, ubah data weight_normalization
         foreach ($data as $participant) {
-            
+
             //mencari nilai normalisasi
             foreach ($participant->participant_criteria as $participantcriteria) {
                 $selectionId = $participantcriteria->selection_criteria_id;
