@@ -128,7 +128,7 @@ export default function DetailSelection({ auth }) {
 
     const nextSelection = (e, idselection) => {
         e.preventDefault();
-        router.visit(`/participant/add`, {
+        router.visit(`/participant/selected`, {
             method: "post",
             data: {
                 participants: resultRankings,
@@ -638,6 +638,9 @@ export default function DetailSelection({ auth }) {
                                             <th className="py-3 px-4 text-sm">
                                                 Peringkat
                                             </th>
+                                            <th className="py-3 px-4 text-sm">
+                                                Kandidat terpilih
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -660,6 +663,19 @@ export default function DetailSelection({ auth }) {
                                                             </td>
                                                             <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                                 {idx + 1}
+                                                            </td>
+                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                                {participant.is_selected ==
+                                                                1 ? (
+                                                                    <p className="text-green-600">
+                                                                        Terpilih
+                                                                    </p>
+                                                                ) : (
+                                                                    <p className="text-rose-800">
+                                                                        Tidak
+                                                                        Terpilih
+                                                                    </p>
+                                                                )}
                                                             </td>
                                                         </tr>
                                                     );

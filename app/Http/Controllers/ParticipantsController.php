@@ -11,7 +11,35 @@ use App\Models\Selection;
 use Inertia\Inertia;
 
 class ParticipantsController extends Controller
-{
+{ 
+    public function selectedParticipant(Request $request)
+    {
+        $participants = collect($request->participants);
+        
+        
+        $limit = $request->limit;
+       
+        $limitparticipants = $participants->take($limit);
+        
+
+        //mencari selection_id yang sekarang itu index ke berapa
+       
+
+        foreach($limitparticipants as $participant) {
+            $newparticipant =  Participant::find($participant['id']);
+            $newparticipant->is_selected = true;
+            $newparticipant->save();
+        }
+
+        $prevselection = Selection::find($request->selection_id);
+        
+
+        $prevselection->status = "SELESAI";
+        $prevselection->save();
+        
+
+    }
+    
     public function getParticipants()
     {
         $participants = Participant::with('participantCriteria', 'participantCriteria.selectionCriteria', 'selection.job', 'selection.selectionCriterias')->paginate(50);

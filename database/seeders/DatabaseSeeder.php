@@ -14,12 +14,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            JobSeeder::class,
-            SelectionSeeder::class,
-            ParticipantSeeder::class,
-            SelectionCriteriaSeeder::class,
-            CriteriaCrispSeeder::class,
-            ParticipantCriteriaSeeder::class,
+            // JobSeeder::class,
+            // SelectionSeeder::class,
+            // ParticipantSeeder::class,
+            // SelectionCriteriaSeeder::class,
+            // CriteriaCrispSeeder::class,
+            // ParticipantCriteriaSeeder::class,
         ]);
     }
 }

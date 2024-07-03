@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/participant/detail/{id}', [ParticipantsController::class, 'getParticipant'])->name('participant.detail');
     Route::get('/participant/biodata/{id}', [ParticipantsController::class, 'biodataParticipant'])->name('participant.biodata');
     Route::post('/participant/add', [ParticipantsController::class, 'addParticipant'])->name('participant.add');
+    Route::post('/participant/selected', [ParticipantsController::class, 'selectedParticipant'])->name('participant.selected');
     Route::put('/participant/update/{id}', [ParticipantsController::class, 'updateParticipant'])->name('participant.update');
     Route::delete('/participant/delete/{id}', [ParticipantsController::class, 'deleteParticipant'])->name('participant.delete');
     

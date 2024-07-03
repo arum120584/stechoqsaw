@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('value')->nullable();
             
             $table->integer('weight');
-            $table->float('weight_normalization')->nullable();
+            $table->decimal('weight_normalization',10,9)->nullable();
             $table->longText('note')->nullable();
             $table->timestamps();
         });
