@@ -4,8 +4,16 @@ import { useState } from "react";
 
 export default function DetailSelection({ auth }) {
     const data = usePage().props;
+
     const [tab, setTab] = useState("kriteria");
     const [excel, setExcel] = useState({});
+
+    // set tab
+    data.currentTab
+        ? tab != data.currentTab
+            ? (setTab(data.currentTab), (data.currentTab = null))
+            : null
+        : null;
 
     const total_weight =
         data.selection.selection_criterias.length > 0 &&
@@ -105,17 +113,17 @@ export default function DetailSelection({ auth }) {
     };
 
     // fungsi SAW
-    const startSaw = (e, idselection) => {
-        e.preventDefault();
-        router.visit(`/startsaw/${idselection}`, {
-            method: "get",
-        });
-        setTimeout(() => {
-            router.visit(`/startsaw/${idselection}`, {
-                method: "get",
-            });
-        }, 2000);
-    };
+    // const startSaw = (e, idselection) => {
+    //     e.preventDefault();
+    //     router.visit(`/startsaw/${idselection}`, {
+    //         method: "get",
+    //     });
+    //     setTimeout(() => {
+    //         router.visit(`/startsaw/${idselection}`, {
+    //             method: "get",
+    //         });
+    //     }, 2000);
+    // };
 
     // cek apabila semua participant pada tahap seleksi ini sudah dinilai semua, maka tombol "seleksi" akan muncul
     let cek = data.participants.data.filter(
@@ -309,7 +317,7 @@ export default function DetailSelection({ auth }) {
                                     onClick={(e) =>
                                         nextSelection(e, data.selection.id)
                                     }
-                                    className="bg-white border border-slate-200 px-2 py-1 rounded-lg"
+                                    className="bg-green-700 border text-white px-2 py-1 rounded-lg"
                                 >
                                     <p className="text-sm">Ambil Keputusan</p>
                                 </button>
@@ -670,10 +678,15 @@ export default function DetailSelection({ auth }) {
                                                                     <p className="text-green-600">
                                                                         Terpilih
                                                                     </p>
-                                                                ) : (
+                                                                ) : participant.is_selected ==
+                                                                  0 ? (
                                                                     <p className="text-rose-800">
                                                                         Tidak
                                                                         Terpilih
+                                                                    </p>
+                                                                ) : (
+                                                                    <p className="text-rose-800">
+                                                                        -
                                                                     </p>
                                                                 )}
                                                             </td>

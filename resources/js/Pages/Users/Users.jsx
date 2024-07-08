@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage, router, Link } from "@inertiajs/react";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 // auth adalah data user yangs sedang login
 export default function Users({ auth }) {
@@ -38,7 +39,19 @@ export default function Users({ auth }) {
             }
         >
             <Head title="Pengguna" />
-
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+            />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">

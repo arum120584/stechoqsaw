@@ -10,12 +10,14 @@ use Illuminate\Support\Facades\Route;
 use App\Models\SelectionCriteria;
 class SawsController extends Controller
 {
+    
     public function startSaw($selectionid)
     {
         $selection = Selection::with('selectionCriterias')->find($selectionid);
         // return dd($selection);
 
         $totalWeight = 0;
+        // return $selection;
        foreach ($selection->selectionCriterias as $key => $criteria) {
             $totalWeight += $criteria->weight;
        }
@@ -101,7 +103,9 @@ class SawsController extends Controller
             $updatescore = Participant::find($participant->id);
             $updatescore->score = $score;
             $updatescore->save();
+            
         }
-        
+        //'kriteria','kandidat','seleksi'
+        session()->put("currentTab", "seleksi");        
     }
 }

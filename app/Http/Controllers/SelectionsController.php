@@ -15,6 +15,7 @@ class SelectionsController extends Controller
     {
         $selections = Selection::with('participants', 'job', 'selectionCriterias')->get();
         // return $selections;
+        session()->put("currentTab", "kriteria");
         
         return Inertia::render('Selections/Selections', [
             'selections' => $selections,
@@ -30,11 +31,14 @@ class SelectionsController extends Controller
         ->where('selection_id', '=', $selection->id)
         ->paginate(10);
         
+        $currentTab = session()->get('currentTab');
+
+
         return Inertia::render('Selections/DetailSelection', [
             'selection' => $selection,
-            'participants' => $participants
+            'participants' => $participants,
+            'currentTab' => $currentTab
         ]);
-
     }
 
     public function formAddSelection()

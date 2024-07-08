@@ -66,6 +66,12 @@ export default function DetailParticipant({ auth }) {
             : []
     );
 
+    data.currentTab
+        ? tab != data.currentTab
+            ? (setTab(data.currentTab), (data.currentTab = null))
+            : null
+        : null;
+
     const [valueCandValue, setValueCandValue] = useState(
         data.participant.participant_criteria.length > 0
             ? data.participant.participant_criteria.map((criteria) => {

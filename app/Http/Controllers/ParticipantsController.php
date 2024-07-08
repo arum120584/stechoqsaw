@@ -24,10 +24,15 @@ class ParticipantsController extends Controller
 
         //mencari selection_id yang sekarang itu index ke berapa
        
+        foreach($participants as $participant) {
+            $newparticipant =  Participant::find($participant['id']);
+            $newparticipant->is_selected = 0;
+            $newparticipant->save();
+        }
 
         foreach($limitparticipants as $participant) {
             $newparticipant =  Participant::find($participant['id']);
-            $newparticipant->is_selected = true;
+            $newparticipant->is_selected = 1;
             $newparticipant->save();
         }
 
@@ -143,8 +148,11 @@ class ParticipantsController extends Controller
 
     public function deleteParticipant($id)
     {
+        // dd('here');
         $participant = Participant::find($id);
         $participant->delete();
+        session()->put("currentTab", "kandidat");        // iki nggo tab kandidat
+       
     }
 
     public function addParticipantCriteria(Request $request)
@@ -182,6 +190,10 @@ class ParticipantsController extends Controller
             $participantCriteria->save();
         }
 
+        // set session current tab => setting nilai state untuk tab yang akan dibuka ('kriteria','kandidat','seleksi')
+        // jadi disetting dulu tab mana yang akan di buka , session ini data sementara yang disimpan dicache browser, jadi sifatnya sementara selama website masih dibuka
+        session()->put("currentTab", "kandidat");
+        // lalu melanjutakn proses di return view seperti biasa
         return redirect()->route('selections.detail', ['id' => $selectionId]);
     }
 

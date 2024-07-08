@@ -20,9 +20,14 @@ class SelectionCriteriasController extends Controller
     {
         $selectioncriteria = SelectionCriteria::with('selection', 'selection.job.selections', 'criteriaCrisps')->find($id);
         $jobs = Job::with('selections')->get();
+
+        $currentTab = session()->get('currentTab');
+
         return Inertia::render('Criterias/DetailCriteria', [
             'criteria' => $selectioncriteria,
-            'jobs' => $jobs
+            'jobs' => $jobs,
+            'currentTab' => $currentTab
+            
         ]);
     }
 
@@ -61,7 +66,7 @@ class SelectionCriteriasController extends Controller
         $selectioncriteria->name = $request->name;
         $selectioncriteria->type = $request->type;
         $selectioncriteria->weight = $request->weight;
-        // $selectioncriteria->description = $request->description;
+        $selectioncriteria->description = $request->description;
         $selectioncriteria->selection_id = $request->selection_id;
 
         $selectioncriteria->save();
@@ -81,6 +86,8 @@ class SelectionCriteriasController extends Controller
         $selectioncriteria->weight_normalization = $data['weight_normalization'];
 
         $selectioncriteria->save();
+
+
 
     }
 
