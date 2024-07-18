@@ -45,7 +45,7 @@ export default function AddSelection({ auth }) {
                                     <label className="text-sm">
                                         Nama Tahap Seleksi
                                     </label>
-                                    <input
+                                    {/* <input
                                         className="rounded-lg border border-gray-300"
                                         type="text"
                                         placeholder="Contoh: Pemberkasan"
@@ -53,7 +53,24 @@ export default function AddSelection({ auth }) {
                                         onChange={(e) =>
                                             setName(e.target.value)
                                         }
-                                    />
+                                    /> */}
+                                    <select
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                        defaultValue={""}
+                                        className="rounded-lg border border-gray-300"
+                                    >
+                                        <option disabled value={""}>
+                                            Pilih Tahap Seleksi
+                                        </option>
+                                        <option value={"SKILL TEST"}>
+                                            Skill Test
+                                        </option>
+                                        <option value={"WAWANCARA"}>
+                                            Wawancara
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="w-1/2 mt-3">

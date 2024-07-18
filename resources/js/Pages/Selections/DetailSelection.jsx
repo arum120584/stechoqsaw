@@ -113,17 +113,17 @@ export default function DetailSelection({ auth }) {
     };
 
     // fungsi SAW
-    // const startSaw = (e, idselection) => {
-    //     e.preventDefault();
-    //     router.visit(`/startsaw/${idselection}`, {
-    //         method: "get",
-    //     });
-    //     setTimeout(() => {
-    //         router.visit(`/startsaw/${idselection}`, {
-    //             method: "get",
-    //         });
-    //     }, 2000);
-    // };
+    const startSaw = (e, idselection) => {
+        e.preventDefault();
+        router.visit(`/startsaw/${idselection}`, {
+            method: "get",
+        });
+        setTimeout(() => {
+            router.visit(`/startsaw/${idselection}`, {
+                method: "get",
+            });
+        }, 2000);
+    };
 
     // cek apabila semua participant pada tahap seleksi ini sudah dinilai semua, maka tombol "seleksi" akan muncul
     let cek = data.participants.data.filter(
@@ -353,9 +353,9 @@ export default function DetailSelection({ auth }) {
                                             <th className="py-3 px-4 text-sm">
                                                 Bobot
                                             </th>
-                                            <th className="py-3 px-4 text-sm">
+                                            {/* <th className="py-3 px-4 text-sm">
                                                 Normalisasi
-                                            </th>
+                                            </th> */}
                                             <th className="py-3 px-4 text-sm">
                                                 Tipe
                                             </th>
@@ -377,11 +377,11 @@ export default function DetailSelection({ auth }) {
                                                             <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                                 {criteria.name}
                                                             </td>
-                                                            <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
+                                                            {/* <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                                 {
                                                                     criteria.weight
                                                                 }
-                                                            </td>
+                                                            </td> */}
                                                             <td className="py-3 px-4 border-b-2 border-gray-50 text-sm">
                                                                 {criteria.weight_normalization !==
                                                                 null

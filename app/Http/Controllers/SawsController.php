@@ -13,17 +13,25 @@ class SawsController extends Controller
     
     public function startSaw($selectionid)
     {
+        
+
         $selection = Selection::with('selectionCriterias')->find($selectionid);
         // return dd($selection);
 
         $totalWeight = 0;
-        // return $selection;
+     
+    // Step 1
+        // jumlah dari hasil kriteria dibagi bobot
+        // hasilnya adalah mendapatkan normalisasi bobot kriteria
        foreach ($selection->selectionCriterias as $key => $criteria) {
             $totalWeight += $criteria->weight;
        }
-       
+    // Step 2
+    // menentukan matriks keputusan yang dimana setiap alternatif diberika nilai menyesuaikan dari tipe benefit dan costnya
+    
+
        foreach ($selection->selectionCriterias as $key => $criteria) {
-        
+        // untuk ngitung tolat bobotnya
         $selectioncriteria = SelectionCriteria::find($criteria->id);
         $selectioncriteria->weight_normalization = $criteria->weight/$totalWeight;
         $selectioncriteria->save();
@@ -34,10 +42,9 @@ class SawsController extends Controller
         $data = json_decode($participants);
         
         $minMaxWeights = [];
-
-        // ini untuk mencari nilai pembagi dari tiap alternatif
-        // foreach itu untuk perulangan data dari data participant 
-
+    // step 3 
+        // menentukan  nilai pembagi dari tiap alternatif, melihat dari setiap keterangannya benefit itu nilai alternatif  dibagi bobot maxsimum, kemudian keterangan cost itu nilai minimum dibagi jumlah alternatif
+        // hasilnya mendapatkan normalisasi alternatif
 
         foreach ($data as $participant) {
             foreach ($participant->participant_criteria as $participantcriteria) {
@@ -61,11 +68,12 @@ class SawsController extends Controller
                 }
             }
         }
-        // tahap ketiga algoritma saw 
+        
         // Setelah mendapatkan nilai minimum dan maksimum, ubah data weight_normalization
         foreach ($data as $participant) {
+  
 
-            //mencari nilai normalisasi
+        //mencari nilai normalisasi matriks keputusan
             foreach ($participant->participant_criteria as $participantcriteria) {
                 $selectionId = $participantcriteria->selection_criteria_id;
                 $type = $participantcriteria->selection_criteria->type;

@@ -166,7 +166,7 @@ class ParticipantsController extends Controller
         $participantId = $data['participant_id'];
         $selectionCriteriaId = $data['selection_criteria_id']; //INI ARRAY
         $weights = $data['weight'];
-        $values = $request->value;
+        // $values = $request->value;
         $notes = $request->note;
         $selectionId = $request->selection_id;
 
@@ -179,13 +179,13 @@ class ParticipantsController extends Controller
         foreach ($selectionCriteriaIdArray as $index => $selectioncriteria) {
             
             $weight = $weights[$index];
-            $value = $values[$index];
+            // $value = $values[$index];
             $note = $notes[$index];
             $participantCriteria = new participantCriteria();
             $participantCriteria->participant_id = $participantId;
             $participantCriteria->selection_criteria_id = $selectioncriteria;
             $participantCriteria->weight = $weight;
-            $participantCriteria->value = $value;
+            // $participantCriteria->value = $value;
             $participantCriteria->note = $note;
             $participantCriteria->save();
         }
@@ -201,7 +201,7 @@ class ParticipantsController extends Controller
     {
         $selectionCriteriaId = $request->selection_criteria_id;
         $participantCriteriaId = $request->participant_criteria_id;
-        $values = $request->value;
+        // $values = $request->value;
         $weights = $request->weight;
         $notes = $request->note;
 
@@ -213,7 +213,7 @@ class ParticipantsController extends Controller
         foreach ($selectionCriteriaIdArray as $index => $selectioncriteria) {
             
             $weight = $weights[$index];
-            $value = $values[$index];
+            // $value = $values[$index];
             $note = $notes[$index];
 
             // Periksa apakah indeks tersebut ada dalam $participantCriteriaId
@@ -226,7 +226,7 @@ class ParticipantsController extends Controller
                     $participantCriteria->participant_id = $request->participant_id;
                     $participantCriteria->selection_criteria_id = $selectioncriteria;
                     $participantCriteria->weight = $weight;
-                    $participantCriteria->value = $value;
+                    // $participantCriteria->value = $value;
                     $participantCriteria->note = $note;
                     $participantCriteria->save();
                 }

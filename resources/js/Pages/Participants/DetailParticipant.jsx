@@ -190,7 +190,7 @@ export default function DetailParticipant({ auth }) {
                 selection_criteria_id:
                     data.participant.selection.selection_criterias,
                 weight: weight,
-                value: candValue,
+                // value: candValue,
                 note: note,
                 selection_id: data.participant.selection_id,
             },
@@ -211,7 +211,7 @@ export default function DetailParticipant({ auth }) {
                 selection_criteria_id:
                     data.participant.selection.selection_criterias,
                 participant_criteria_id: criteriaId,
-                value: valueCandValue,
+                // value: valueCandValue,
                 weight: valueWeight,
                 note: valueNote,
             },
@@ -742,7 +742,7 @@ export default function DetailParticipant({ auth }) {
                                                     </p>
 
                                                     <div className="flex items-center gap-3 mt-3">
-                                                        <div className="flex flex-col gap-2 w-full">
+                                                        {/* <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
                                                                 Nilai
                                                             </label>
@@ -766,7 +766,7 @@ export default function DetailParticipant({ auth }) {
                                                                     );
                                                                 }}
                                                             />
-                                                        </div>
+                                                        </div> */}
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
                                                                 Bobot
@@ -843,7 +843,7 @@ export default function DetailParticipant({ auth }) {
                                                                 }}
                                                             />
                                                         </div>
-                                                        <div className="flex flex-col gap-2 w-full">
+                                                        {/* <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
                                                                 Normalisasi
                                                             </label>
@@ -867,7 +867,7 @@ export default function DetailParticipant({ auth }) {
                                                                     );
                                                                 }}
                                                             />
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             );
@@ -888,7 +888,7 @@ export default function DetailParticipant({ auth }) {
                                                     </p>
 
                                                     <div className="flex items-center gap-3 mt-3">
-                                                        <div className="flex flex-col gap-2 w-full">
+                                                        {/* <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
                                                                 Nilai
                                                             </label>
@@ -911,7 +911,7 @@ export default function DetailParticipant({ auth }) {
                                                                     );
                                                                 }}
                                                             />
-                                                        </div>
+                                                        </div> */}
                                                         <div className="flex flex-col gap-2 w-full">
                                                             <label className="text-sm">
                                                                 Bobot

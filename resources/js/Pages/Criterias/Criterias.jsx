@@ -47,7 +47,7 @@ export default function Selections({ auth }) {
                                             Tipe
                                         </th>
                                         <th className="py-3 px-4 text-sm">
-                                            Bobot
+                                            Tingkat Kepentingan
                                         </th>
                                         <th className="py-3 px-4 text-sm">
                                             Seleksi

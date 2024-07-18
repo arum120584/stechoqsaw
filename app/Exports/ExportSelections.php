@@ -13,7 +13,7 @@ class ExportSelections implements FromCollection
     public function collection()
     {
         $selectionId = request()->selectionid;
-        $participants = Participant::where('selection_id', $selectionId)->orderBy('score', 'desc')->get();
+        $participants = Participant::where('selection_id', $selectionId)->where('is_selected', 1)->orderBy('score', 'desc')->get();
         return $participants;
 
 
